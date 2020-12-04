@@ -5,14 +5,24 @@ import javax.persistence.*;
 @Entity
 @Table(name = "users")
 public class User {
+
+    public static User getGuest() {
+        User guest = new User();
+        guest.setFirstName("guest");
+        guest.setLastName("guest");
+        guest.setUsername("guest");
+        guest.setRole(Role.GUEST);
+        return guest;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(length = 80, unique = true)
+    @Column(unique = true)
     private String username;
 
-    @Column(length = 80)
+    @Column
     private String password;
 
     @Column(name = "first_name")

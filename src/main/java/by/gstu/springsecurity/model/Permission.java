@@ -5,7 +5,8 @@ import org.springframework.security.core.GrantedAuthority;
 public enum  Permission implements GrantedAuthority {
     READ_ONLY,
     WRITE,
-    COMMENTS;
+    COMMENTS,
+    DEFAULT;
 
     @Override
     public String getAuthority() {

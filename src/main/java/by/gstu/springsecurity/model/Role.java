@@ -5,7 +5,7 @@ import java.util.Set;
 public enum Role {
     ADMIN(Set.of()),
     USER(Set.of(Permission.values())),
-    GUEST(Set.of());
+    GUEST(Set.of(Permission.DEFAULT));
 
     private final Set<Permission> permissions;
 

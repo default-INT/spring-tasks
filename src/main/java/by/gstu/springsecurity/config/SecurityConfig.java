@@ -6,7 +6,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -32,10 +31,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
-                .antMatchers(HttpMethod.GET,"/**").hasRole(Role.ADMIN.toString())
+                .antMatchers("/temp/**").permitAll()
                 .antMatchers("/api/auth/login").permitAll()
-                .anyRequest()
-                .authenticated()
+                .antMatchers("/api/auth/guest").permitAll()
+                .antMatchers(HttpMethod.GET,"/**").hasRole(Role.ADMIN.toString())
+                .anyRequest().authenticated()
                 .and()
                 .apply(jwtConfigurer);
     }
