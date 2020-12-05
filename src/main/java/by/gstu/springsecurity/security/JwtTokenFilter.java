@@ -1,9 +1,13 @@
 package by.gstu.springsecurity.security;
 
 import by.gstu.springsecurity.exception.JwtAuthenticationException;
+import by.gstu.springsecurity.model.User;
+import by.gstu.springsecurity.repository.UserRepository;
+import io.jsonwebtoken.ExpiredJwtException;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.GenericFilterBean;
 
@@ -19,9 +23,11 @@ import java.io.IOException;
 public class JwtTokenFilter extends GenericFilterBean {
 
     private final JwtTokenProvider jwtTokenProvider;
+    private final UserRepository userRepository;
 
-    public JwtTokenFilter(JwtTokenProvider jwtTokenProvider) {
+    public JwtTokenFilter(JwtTokenProvider jwtTokenProvider, UserRepository userRepository) {
         this.jwtTokenProvider = jwtTokenProvider;
+        this.userRepository = userRepository;
     }
 
     @Override
@@ -34,10 +40,19 @@ public class JwtTokenFilter extends GenericFilterBean {
                     SecurityContextHolder.getContext().setAuthentication(authentication);
                 }
             }
-
-            //servletRequest.getRequestDispatcher("/api/auth/guest").
         } catch (JwtAuthenticationException e) {
             SecurityContextHolder.clearContext();
+            ((HttpServletResponse) servletResponse).sendError(HttpStatus.UNAUTHORIZED.value(), e.getMessage());
+            throw e;
+        } catch (ExpiredJwtException e) {
+            String urlPath = ((HttpServletRequest) servletRequest).getServletPath();
+            SecurityContextHolder.clearContext();
+            if (urlPath.contains("/temp")) {
+                String uuid = urlPath.split("/")[2];
+                User user = userRepository.findByUsername(uuid)
+                        .orElseThrow(() -> new UsernameNotFoundException("User doesn't exist"));;
+                userRepository.delete(user);
+            }
             ((HttpServletResponse) servletResponse).sendError(HttpStatus.UNAUTHORIZED.value(), e.getMessage());
             throw e;
         }

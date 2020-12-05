@@ -1,5 +1,6 @@
 package by.gstu.springsecurity.config;
 
+import by.gstu.springsecurity.model.Permission;
 import by.gstu.springsecurity.model.Role;
 import by.gstu.springsecurity.security.JwtConfigurer;
 import org.springframework.context.annotation.Bean;
@@ -31,11 +32,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
-                .antMatchers("/temp/**").permitAll()
+                .antMatchers("/temp/**").hasAuthority(Permission.DEFAULT.getAuthority())
                 .antMatchers("/api/auth/login").permitAll()
                 .antMatchers("/api/auth/guest").permitAll()
-                .antMatchers(HttpMethod.GET,"/**").hasRole(Role.ADMIN.toString())
+                .antMatchers(HttpMethod.GET,"/**").hasRole(Role.ADMIN.name())
                 .anyRequest().authenticated()
+                .and()
+                .formLogin()
+                    .loginPage("/api/auth/guest")
+                    .failureForwardUrl("/api/auth/not-fount")
                 .and()
                 .apply(jwtConfigurer);
     }

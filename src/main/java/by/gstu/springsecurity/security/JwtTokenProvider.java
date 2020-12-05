@@ -59,13 +59,9 @@ public class JwtTokenProvider {
     public boolean validateToken(String token) {
         try {
             Jws<Claims> claimsJws = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token);
-            boolean oldToken = !claimsJws.getBody().getExpiration().before(new Date());
-            if (!oldToken && claimsJws.getBody().get("role").equals(Role.GUEST.name())) {
-                User user = userRepository.findByUsername(getUsername(token))
-                        .orElseThrow(() -> new UsernameNotFoundException("User doesn't exist"));
-                userRepository.delete(user);
-            }
-            return oldToken;
+            return  !claimsJws.getBody().getExpiration().before(new Date());
+        } catch (ExpiredJwtException e) {
+            throw e;
         } catch (JwtException | IllegalArgumentException e) {
             throw new JwtAuthenticationException("Jwt token is expired or invalid", e);
         }
