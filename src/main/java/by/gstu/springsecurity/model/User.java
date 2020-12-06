@@ -11,7 +11,7 @@ public class User {
         guest.setFirstName("guest");
         guest.setLastName("guest");
         guest.setUsername("guest");
-        guest.setRole(Role.GUEST);
+        guest.setRole(RoleType.GUEST);
         return guest;
     }
 
@@ -37,7 +37,7 @@ public class User {
 
     @Column(length = 30)
     @Enumerated(value = EnumType.STRING)
-    private Role role;
+    private RoleType role;
 
     public Long getId() {
         return id;
@@ -63,11 +63,11 @@ public class User {
         this.password = password;
     }
 
-    public Role getRole() {
+    public RoleType getRole() {
         return role;
     }
 
-    public void setRole(Role role) {
+    public void setRole(RoleType role) {
         this.role = role;
     }
 

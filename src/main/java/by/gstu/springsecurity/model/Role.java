@@ -1,19 +1,24 @@
 package by.gstu.springsecurity.model;
 
+import by.gstu.springsecurity.service.RolePermissionService;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+
 import java.util.Set;
+import java.util.stream.Collectors;
 
-public enum Role {
-    ADMIN(Set.of()),
-    USER(Set.of(Permission.values())),
-    GUEST(Set.of(Permission.DEFAULT));
+public class Role {
+    private RoleType roleType;
+    private Set<Permission> permissions;
 
-    private final Set<Permission> permissions;
 
-    Role(Set<Permission> permissions) {
-        this.permissions = permissions;
+    private final RolePermissionService rolePermissionService;
+
+    public Role(RolePermissionService rolePermissionService) {
+        this.rolePermissionService = rolePermissionService;
     }
 
-    public Set<Permission> getPermissions() {
-        return permissions;
+    public void setPermissions(Set<Permission> permissions) {
+        this.permissions = permissions;
     }
 }

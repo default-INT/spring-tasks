@@ -1,15 +1,15 @@
 package by.gstu.springsecurity.model;
 
-import org.springframework.security.core.GrantedAuthority;
+import by.gstu.springsecurity.service.RolePermissionService;
+import org.springframework.beans.factory.annotation.Autowired;
 
-public enum  Permission implements GrantedAuthority {
-    READ_ONLY,
-    WRITE,
-    COMMENTS,
-    DEFAULT;
+import java.util.Set;
 
-    @Override
-    public String getAuthority() {
-        return name();
-    }
+public enum Permission {
+    DEFAULT, READ_ONLY, WRITE, COMMENT;
+
+    private Set<Permission> permissions;
+
+    private RolePermissionService rolePermissionService;
+
 }

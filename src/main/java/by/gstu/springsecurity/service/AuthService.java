@@ -1,7 +1,7 @@
 package by.gstu.springsecurity.service;
 
 import by.gstu.springsecurity.dto.UserRequestDto;
-import by.gstu.springsecurity.model.Role;
+import by.gstu.springsecurity.model.RoleType;
 import by.gstu.springsecurity.model.Status;
 import by.gstu.springsecurity.model.User;
 import by.gstu.springsecurity.repository.UserRepository;
@@ -13,7 +13,6 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.PreDestroy;
 import java.util.Map;
 import java.util.UUID;
 
@@ -37,12 +36,12 @@ public class AuthService {
         User user = new User();
         user.setUsername(uuidUsername);
         user.setPassword(GUEST_PASS);
-        user.setRole(Role.GUEST);
+        user.setRole(RoleType.GUEST);
         user.setStatus(Status.ACTIVE);
 
         userRepository.save(user);
         authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(user.getUsername(), Role.GUEST.name())
+                new UsernamePasswordAuthenticationToken(user.getUsername(), RoleType.GUEST.name())
         );
         String token = jwtTokenProvider.createToken(user.getUsername(), user.getRole().name());
         return ResponseEntity.ok(Map.of(

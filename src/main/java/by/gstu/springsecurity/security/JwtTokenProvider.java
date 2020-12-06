@@ -1,8 +1,7 @@
 package by.gstu.springsecurity.security;
 
 import by.gstu.springsecurity.exception.JwtAuthenticationException;
-import by.gstu.springsecurity.model.Role;
-import by.gstu.springsecurity.model.User;
+import by.gstu.springsecurity.model.RoleType;
 import by.gstu.springsecurity.repository.UserRepository;
 import io.jsonwebtoken.*;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -11,7 +10,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
@@ -34,7 +32,7 @@ public class JwtTokenProvider {
     private long validityGuestMilliseconds;
 
     private long getMilliseconds(String role) {
-        return role.equals(Role.GUEST.name()) ? validityGuestMilliseconds:  validityMilliseconds;
+        return role.equals(RoleType.GUEST.name()) ? validityGuestMilliseconds:  validityMilliseconds;
     }
 
     public JwtTokenProvider(@Qualifier("userDetailsServiceImpl") UserDetailsService userDetailsService, UserRepository userRepository) {
