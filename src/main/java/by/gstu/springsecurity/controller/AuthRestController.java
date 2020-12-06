@@ -1,47 +1,61 @@
 package by.gstu.springsecurity.controller;
 
+import by.gstu.springsecurity.dto.PermissionRequestDto;
 import by.gstu.springsecurity.dto.UserRequestDto;
-import by.gstu.springsecurity.repository.UserRepository;
-import by.gstu.springsecurity.security.JwtTokenProvider;
-import by.gstu.springsecurity.service.AuthService;
+import by.gstu.springsecurity.model.Permission;
+import by.gstu.springsecurity.model.Role;
+import by.gstu.springsecurity.service.RolePermissionService;
+import by.gstu.springsecurity.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.Map;
 
 
 @RestController
 @RequestMapping("/api/auth")
 public class AuthRestController {
-    // TODO: temporary solution
-    private static final String GUEST_PASS = "$2y$12$l0xLhkorx8v2/BDymHBpzekg1WxClJ1v6lzxd6zLzpxCwHxWZOiey";
 
-    private final AuthenticationManager authenticationManager;
-    private final UserRepository userRepository;
-    private final JwtTokenProvider jwtTokenProvider;
-    private final AuthService authService;
+    private final UserService userService;
+    private final RolePermissionService rolePermissionService;
 
-    public AuthRestController(AuthenticationManager authenticationManager, UserRepository userRepository, JwtTokenProvider jwtTokenProvider, AuthService authService) {
-        this.authenticationManager = authenticationManager;
-        this.userRepository = userRepository;
-        this.jwtTokenProvider = jwtTokenProvider;
-        this.authService = authService;
+    public AuthRestController(UserService userService, RolePermissionService rolePermissionService) {
+        this.userService = userService;
+        this.rolePermissionService = rolePermissionService;
     }
 
     @GetMapping("/guest")
     public ResponseEntity<?> guestAuth() {
         try {
-            return authService.guestAuth();
+            return userService.guestAuth();
         } catch (AuthenticationException e) {
             return new ResponseEntity<>("Invalid username or password", HttpStatus.FORBIDDEN);
         }
     }
+
+    @PostMapping("/add-user-permission")
+    public ResponseEntity<?> addPermission(@RequestBody PermissionRequestDto request) {
+        try {
+            rolePermissionService.addPermission(Role.USER, Permission.valueOf(request.getPermission()));
+            return ResponseEntity.ok("User role up permission");
+        } catch (IllegalArgumentException e) {
+            return new ResponseEntity<>("Invalid permission", HttpStatus.NOT_FOUND);
+        }
+    }
+    @PostMapping("/delete-user-permission")
+    public ResponseEntity<?> deletePermission(@RequestBody PermissionRequestDto request) {
+        try {
+            rolePermissionService.deletePermission(Role.USER, Permission.valueOf(request.getPermission()));
+            return ResponseEntity.ok("User role delete permission: " + request.getPermission());
+        } catch (IllegalArgumentException e) {
+            return new ResponseEntity<>("Invalid permission", HttpStatus.NOT_FOUND);
+        }
+    }
+
 
     @GetMapping("/not-found")
     public ResponseEntity<?> notFound() {
@@ -51,7 +65,7 @@ public class AuthRestController {
     @PostMapping("/login")
     public ResponseEntity<?> authenticate(@RequestBody UserRequestDto request) {
         try {
-            return authService.login(request);
+            return userService.login(request);
         } catch (AuthenticationException e) {
             return new ResponseEntity<>("Invalid username or password", HttpStatus.FORBIDDEN);
         }

@@ -1,31 +1,39 @@
 package by.gstu.springsecurity.service;
 
 import by.gstu.springsecurity.dto.UserRequestDto;
-import by.gstu.springsecurity.model.RoleType;
-import by.gstu.springsecurity.model.Status;
-import by.gstu.springsecurity.model.User;
+import by.gstu.springsecurity.model.*;
+import by.gstu.springsecurity.repository.RolePermissionRepository;
 import by.gstu.springsecurity.repository.UserRepository;
 import by.gstu.springsecurity.security.JwtTokenProvider;
+import org.springframework.context.annotation.Bean;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Map;
 import java.util.UUID;
 
 @Service
-public class AuthService {
-    // TODO: temporary solution
+public class UserService {
+
     private static final String GUEST_PASS = "$2y$12$l0xLhkorx8v2/BDymHBpzekg1WxClJ1v6lzxd6zLzpxCwHxWZOiey";
 
     private final AuthenticationManager authenticationManager;
     private final UserRepository userRepository;
     private final JwtTokenProvider jwtTokenProvider;
+    private static final PasswordEncoder PASSWORD_ENCODER = passwordEncoder();
 
-    public AuthService(AuthenticationManager authenticationManager, UserRepository userRepository, JwtTokenProvider jwtTokenProvider) {
+    private static PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder(12);
+    }
+
+    public UserService(AuthenticationManager authenticationManager, UserRepository userRepository,
+                       JwtTokenProvider jwtTokenProvider) {
         this.authenticationManager = authenticationManager;
         this.userRepository = userRepository;
         this.jwtTokenProvider = jwtTokenProvider;
@@ -35,13 +43,13 @@ public class AuthService {
         String uuidUsername = UUID.randomUUID().toString();
         User user = new User();
         user.setUsername(uuidUsername);
-        user.setPassword(GUEST_PASS);
-        user.setRole(RoleType.GUEST);
+        user.setPassword(PASSWORD_ENCODER.encode("GUEST"));
+        user.setRole(Role.GUEST);
         user.setStatus(Status.ACTIVE);
 
         userRepository.save(user);
         authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(user.getUsername(), RoleType.GUEST.name())
+                new UsernamePasswordAuthenticationToken(user.getUsername(), Role.GUEST.name())
         );
         String token = jwtTokenProvider.createToken(user.getUsername(), user.getRole().name());
         return ResponseEntity.ok(Map.of(

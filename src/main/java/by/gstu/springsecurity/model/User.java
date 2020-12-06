@@ -6,15 +6,6 @@ import javax.persistence.*;
 @Table(name = "users")
 public class User {
 
-    public static User getGuest() {
-        User guest = new User();
-        guest.setFirstName("guest");
-        guest.setLastName("guest");
-        guest.setUsername("guest");
-        guest.setRole(RoleType.GUEST);
-        return guest;
-    }
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -37,7 +28,7 @@ public class User {
 
     @Column(length = 30)
     @Enumerated(value = EnumType.STRING)
-    private RoleType role;
+    private Role role;
 
     public Long getId() {
         return id;
@@ -63,11 +54,11 @@ public class User {
         this.password = password;
     }
 
-    public RoleType getRole() {
+    public Role getRole() {
         return role;
     }
 
-    public void setRole(RoleType role) {
+    public void setRole(Role role) {
         this.role = role;
     }
 

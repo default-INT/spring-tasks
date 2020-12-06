@@ -14,12 +14,12 @@ public class RolePermission {
     private Permission permission;
     @Column
     @Enumerated(value = EnumType.STRING)
-    private RoleType role;
+    private Role role;
 
     public RolePermission() {
     }
 
-    public RolePermission(RoleType role, Permission permission) {
+    public RolePermission(Role role, Permission permission) {
         this.role = role;
         this.permission = permission;
     }
@@ -40,11 +40,11 @@ public class RolePermission {
         this.permission = permission;
     }
 
-    public RoleType getRole() {
+    public Role getRole() {
         return role;
     }
 
-    public void setRole(RoleType role) {
+    public void setRole(Role role) {
         this.role = role;
     }
 }

@@ -1,6 +1,7 @@
 package by.gstu.springsecurity.config;
 
-import by.gstu.springsecurity.model.RoleType;
+import by.gstu.springsecurity.model.Permission;
+import by.gstu.springsecurity.model.Role;
 import by.gstu.springsecurity.security.JwtConfigurer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -34,7 +35,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/temp/**").hasAuthority("DEFAULT")
                 .antMatchers("/api/auth/login").permitAll()
                 .antMatchers("/api/auth/guest").permitAll()
-                .antMatchers(HttpMethod.GET,"/**").hasRole(RoleType.ADMIN.name())
+                .antMatchers("/api/auth/add-user-permission").hasAuthority(Permission.ADMIN_PERMISSION.name())
+                .antMatchers(HttpMethod.GET,"/**").hasRole(Permission.ADMIN_PERMISSION.name())
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
