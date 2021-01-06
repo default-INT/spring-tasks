@@ -30,7 +30,6 @@ a {
     text-decoration: none;
     cursor: pointer;
     transition: .5s ease-in-out;
-    color: #69707a;
 }
 
 select, option {
@@ -38,9 +37,8 @@ select, option {
 }
 
 input, textarea, select {
-    
     border-width: 0;
-    border-bottom: solid #4e73df;
+    border-bottom: solid #6bb536;
     padding: .9rem;
     outline: none;
     transition: .4s ease;
@@ -94,16 +92,21 @@ button:hover {
 }
 
 .default-btn {
-    background-color: #4e73df;
+    background-color: #6bb536;
     color: #fff;
     padding: 1.5vmin;
     border-radius: 8px;
-    border:  #4e73df solid  2px;
+    border:  #6bb536 solid  2px;
 }
 
 .default-btn:hover {
     background-color: #fff;
-    color: #4e73df ;
+    color: #6bb536 ;
+}
+
+.default-btn.enable {
+    background-color: #fff;
+    color: #6bb536 
 }
 
 .default-link {

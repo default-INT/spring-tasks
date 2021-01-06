@@ -20,15 +20,27 @@ main .fragment-title {
     padding-bottom: 1rem;
 }
 
-main .fragment .fragment-content {
-
+main .fragment .image-list  {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around
 }
 
 main .image-list .item {
     display: flex;
     flex-direction: column;
+    margin: 1rem;
 }
 
 main .image-list .item .title-image {
     display: inline-block;
+    padding: 1vmax;
+    border-bottom: 1px solid #dce6e6;
+    text-align: left;
+}
+
+main .item canvas {
+    display: inline-block;
+    padding: 1vmin;
+    width: 20rem;
 }

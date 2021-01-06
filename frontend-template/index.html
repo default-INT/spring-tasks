@@ -6,6 +6,8 @@
     <link rel="stylesheet" href="main.css" />
     <link rel="stylesheet" href="css/header.css" />
     <link rel="stylesheet" href="css/content.css" />
+    <link rel="stylesheet" href="css/modal.css" />
+    <link rel="stylesheet" href="css/loader.css" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#000000" />
 
@@ -32,21 +34,42 @@
     </header>
     <main>
         <div class="container">
+            <div id="modalContainer"></div>
             <div class="fragment">
                 <div class="fragment-title">
-                    Fragment title
+                    Images
                 </div>
                 <div class="fragment-content image-list">
-                    <div class="item image">
-                        <div class="title-image">
+                    <div class="item image light-shadow" id="image1">
+                        <a class="title-image default-link" onclick="openModal('image1')" href="#openModal">
                             Image 1 / (png, jpg)
-                        </div>
+                        </a>
                         <canvas></canvas>
                     </div>
+                    <div class="item image light-shadow" id="image1">
+                        <a class="title-image default-link" onclick="openModal('image1')" href="#openModal">
+                            Image 1 / (png, jpg)
+                        </a>
+                        <canvas></canvas>
+                    </div>
+                    <div class="item image light-shadow" id="image1">
+                        <a class="title-image default-link" onclick="openModal('image1')" href="#openModal">
+                            Image 1 / (png, jpg)
+                        </a>
+                        <canvas></canvas>
+                    </div>
+                    <div class="item image light-shadow" id="image1">
+                        <a class="title-image default-link" onclick="openModal('image1')" href="#openModal">
+                            Image 1 / (png, jpg)
+                        </a>
+                        <canvas></canvas>
+                    </div>
+                    
                 </div>
             </div>
         </div>
     </main>
+    <script src="js/main.js"></script>
 </div>
 </body>
 </html>

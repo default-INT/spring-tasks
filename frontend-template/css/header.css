@@ -42,5 +42,9 @@ header nav {
 
 header nav .nav-link {
     font-size: 1.5em;
-    padding: .6rem
+    padding: .6rem;
+}
+
+header a {
+    color: #69707a;
 }
