@@ -42,5 +42,5 @@ main .image-list .item .title-image {
 main .item canvas {
     display: inline-block;
     padding: 1vmin;
-    width: 20rem;
+    /*! width: 20rem; */
 }

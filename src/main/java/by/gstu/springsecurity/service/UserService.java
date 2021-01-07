@@ -21,7 +21,7 @@ import java.util.UUID;
 @Service
 public class UserService {
 
-    private static final String GUEST_PASS = "$2y$12$l0xLhkorx8v2/BDymHBpzekg1WxClJ1v6lzxd6zLzpxCwHxWZOiey";
+//    private static final String GUEST_PASS = "$2y$12$l0xLhkorx8v2/BDymHBpzekg1WxClJ1v6lzxd6zLzpxCwHxWZOiey";
 
     private final AuthenticationManager authenticationManager;
     private final UserRepository userRepository;

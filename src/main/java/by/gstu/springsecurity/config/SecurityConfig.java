@@ -35,6 +35,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/temp/**").hasAuthority("DEFAULT")
                 .antMatchers("/api/auth/login").permitAll()
                 .antMatchers("/api/auth/guest").permitAll()
+                .antMatchers("/uploads/**").permitAll()
                 .antMatchers("/api/auth/add-user-permission").hasAuthority(Permission.ADMIN_PERMISSION.name())
                 .antMatchers(HttpMethod.GET,"/**").hasRole(Permission.ADMIN_PERMISSION.name())
                 .anyRequest().authenticated()
