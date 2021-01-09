@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
+    <link rel="stylesheet" href="/static/main.css" />
+    <link rel="stylesheet" href="/static/css/header.css" />
+    <link rel="stylesheet" href="/static/css/content.css" />
+    <link rel="stylesheet" href="/static/css/modal.css" />
+    <link rel="stylesheet" href="/static/css/loader.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#000000" />
+
+    <title>Image maker</title>
+</head>
+<body>
+<div id="root">
+    <header>
+        <div class="main-container">
+            <div class="title">Image maker</div>
+            <nav>
+                <a href="" class="default-link nav-link">Main</a>
+                <a href="" class="default-link nav-link">Images</a>
+            </nav>
+        </div>
+        <div class="user-control">
+            <a class="username default-link">
+                {{user.username}}
+            </a>
+            <div class="manage-btn">
+                <a href="" class="login default-link">Log out</a>
+            </div>
+        </div>
+    </header>
+    <main>
+        <div class="container">
+            <div id="modalContainer"></div>
+            <div class="fragment">
+                <div class="fragment-title">
+                    Images
+                </div>
+                <div class="fragment-content image-list">
+                </div>
+
+            </div>
+        </div>
+    </main>
+    <script>
+        history.pushState('','','/');
+    </script>
+    <script src="/static/js/util.js"></script>
+    <script src="/static/js/main.js">
+    </script>
+</div>
+</body>
+</html>

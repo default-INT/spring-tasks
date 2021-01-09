@@ -14,6 +14,7 @@ import java.awt.image.BufferedImage;
 import java.io.*;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class ImageService {
@@ -33,9 +34,10 @@ public class ImageService {
         return imageRepository.findAll();
     }
 
-    public void addImage(MultipartFile file) {
+    public void addImage(MultipartFile file, String name) {
         String fileName = file.getOriginalFilename();
-        String filePath = Paths.get(UPLOAD_DIR, fileName).toString();
+        String contextFilePath = UUID.randomUUID().toString() + "." + fileName;
+        String filePath = Paths.get(UPLOAD_DIR, contextFilePath).toString();
 
         BufferedImage bufferedImage;
 
@@ -48,7 +50,9 @@ public class ImageService {
         }
         Image image = new Image();
 
-        image.setFilePath(fileName);
+        image.setName(name);
+        image.setContentType(file.getContentType());
+        image.setFilePath(contextFilePath);
         image.setHeight(bufferedImage.getHeight());
         image.setWidth(bufferedImage.getWidth());
 

@@ -2,7 +2,7 @@
 
 @font-face {
     font-family: "GTWalsheimPro";
-    src: url('fonts/GTWalsheimPro.otf') format("truetype");
+    src: url('/static/fonts/GTWalsheimPro.otf') format("truetype");
     font-style: normal;
     font-weight: normal;
 }

@@ -12,7 +12,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Component;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import java.util.Arrays;
 import java.util.Date;
 
 @Component
@@ -79,6 +81,10 @@ public class JwtTokenProvider {
     }
 
     public String resolveToken(HttpServletRequest request) {
-        return request.getHeader(authorizationHeader);
+        String token = request.getHeader(authorizationHeader);
+        if (token == null && request.getSession().getAttribute("token") != null) {
+            token = (String) request.getSession().getAttribute("token");
+        }
+        return token;
     }
 }

@@ -12,19 +12,43 @@ public class Image {
     private Long id;
     @Column(name = "file_path", unique = true)
     private String filePath;
+    @Column(name = "name", unique = true)
+    private String name;
+    @Column(name = "content_type")
+    private String contentType;
     @Column
     private int width;
     @Column
     private int height;
 
-    @ManyToMany
+    @OneToMany(mappedBy = "image")
     private Set<ImageEffect> imageEffects;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getContentType() {
+        return contentType;
+    }
+
+    public void setContentType(String contentType) {
+        this.contentType = contentType;
+    }
+
+    public void setImageEffects(Set<ImageEffect> imageEffects) {
+        this.imageEffects = imageEffects;
+    }
 
     public Collection<ImageEffect> getImageEffects() {
         return imageEffects;
     }
 
-    public void setImageEffects(Set<ImageEffect> imageEffects) {
+    public void setEffects(Set<ImageEffect> imageEffects) {
         this.imageEffects = imageEffects;
     }
 

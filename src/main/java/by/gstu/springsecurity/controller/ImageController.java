@@ -32,12 +32,12 @@ public class ImageController {
     }
 
     @PostMapping("/load-img")
-    public ResponseEntity<?> loadImage(final @RequestParam("file") MultipartFile file) {
+    public ResponseEntity<?> loadImage(final @RequestParam("file") MultipartFile file, final @RequestParam("name") String name) {
         try {
             if (file == null) {
                 return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
             }
-            imageService.addImage(file);
+            imageService.addImage(file, name);
             return new ResponseEntity<>("Image load", HttpStatus.OK);
         } catch (ImageWriteException e) {
             logger.warn(e.getMessage());

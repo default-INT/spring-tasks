@@ -1,6 +1,7 @@
 package by.gstu.springsecurity.service;
 
 import by.gstu.springsecurity.dto.UserRequestDto;
+import by.gstu.springsecurity.dto.UserResponseDto;
 import by.gstu.springsecurity.model.*;
 import by.gstu.springsecurity.repository.RolePermissionRepository;
 import by.gstu.springsecurity.repository.UserRepository;
@@ -59,14 +60,15 @@ public class UserService {
         ));
     }
 
-    public ResponseEntity<?> login(UserRequestDto userRequestDto) throws AuthenticationException {
+    public UserResponseDto login(UserRequestDto userRequestDto) throws AuthenticationException {
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(userRequestDto.getUsername(), userRequestDto.getPassword())
         );
         User user = userRepository.findByUsername(userRequestDto.getUsername())
                 .orElseThrow(() -> new UsernameNotFoundException("User doesn't exist"));
         String token = jwtTokenProvider.createToken(user.getUsername(), user.getRole().name());
-        return ResponseEntity.ok(Map.of("username", user.getUsername(), "token", token));
+        return UserResponseDto.of(user.getUsername(), user.getFirstName(), user.getLastName(),
+                user.getRole().name().toLowerCase(), token);
     }
 
     public boolean validUuid(String uuid) {

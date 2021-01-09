@@ -65,7 +65,7 @@ public class AuthRestController {
     @PostMapping("/login")
     public ResponseEntity<?> authenticate(@RequestBody UserRequestDto request) {
         try {
-            return userService.login(request);
+            return ResponseEntity.ok(userService.login(request));
         } catch (AuthenticationException e) {
             return new ResponseEntity<>("Invalid username or password", HttpStatus.FORBIDDEN);
         }

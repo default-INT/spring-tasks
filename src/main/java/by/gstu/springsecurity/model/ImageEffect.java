@@ -1,26 +1,34 @@
 package by.gstu.springsecurity.model;
 
+
 import javax.persistence.*;
-import java.util.Set;
 
 @Entity
-@Table(name = "image_effects")
+@Table(name ="image_effect")
 public class ImageEffect {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(unique = true)
-    private String effect;
+    @Column(name = "image_id")
+    private Long imageId;
+    @Column(name = "effect_id")
+    private Long effectId;
+    @Column(name = "file_path")
+    private String filePath;
 
-    @ManyToMany(mappedBy = "imageEffects", fetch = FetchType.EAGER)
-    private Set<Image> images;
+    @ManyToOne
+    @JoinColumn(name="image_id", updatable = false, insertable = false)
+    private Image image;
+    @ManyToOne
+    @JoinColumn(name="effect_id", updatable = false, insertable = false)
+    private Effect effect;
 
-    public Set<Image> getImage() {
-        return images;
+    public String getFilePath() {
+        return filePath;
     }
 
-    public void setImage(Set<Image> images) {
-        this.images = images;
+    public void setFilePath(String filePath) {
+        this.filePath = filePath;
     }
 
     public Long getId() {
@@ -31,11 +39,35 @@ public class ImageEffect {
         this.id = id;
     }
 
-    public String getEffect() {
+    public Long getImageId() {
+        return imageId;
+    }
+
+    public void setImageId(Long imageId) {
+        this.imageId = imageId;
+    }
+
+    public Long getEffectId() {
+        return effectId;
+    }
+
+    public void setEffectId(Long effectId) {
+        this.effectId = effectId;
+    }
+
+    public Image getImage() {
+        return image;
+    }
+
+    public void setImage(Image image) {
+        this.image = image;
+    }
+
+    public Effect getEffect() {
         return effect;
     }
 
-    public void setEffect(String effect) {
+    public void setEffect(Effect effect) {
         this.effect = effect;
     }
 }

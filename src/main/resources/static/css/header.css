@@ -1,0 +1,50 @@
+header {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    border-bottom: 1px solid #dce6e6;
+}
+
+header .title {
+    color: #6bb536;
+    font-size: 2em;
+    cursor: default;
+    padding: 1rem;
+}
+
+header .user-control {
+    display: flex;
+    align-items: center;
+    padding: .5rem;
+    font-size: 1.2em
+}
+
+header .user-control .username {
+    padding: .8rem;
+    border-right: 2px solid #dce6e6; 
+}
+
+header .user-control .manage-btn {
+    padding: 1rem
+}
+
+header .main-container {
+    display: flex;
+    align-items: center;
+}
+
+header nav {
+    display: flex;
+    align-items: center;
+    margin-left: 2rem;
+    color: #69707a;
+}
+
+header nav .nav-link {
+    font-size: 1.5em;
+    padding: .6rem;
+}
+
+header a {
+    color: #69707a;
+}
