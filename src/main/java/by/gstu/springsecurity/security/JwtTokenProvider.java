@@ -83,7 +83,7 @@ public class JwtTokenProvider {
 
     public Optional<String> resolveToken(HttpServletRequest request) {
         Optional<String> tokenOpt = Optional.ofNullable(request.getHeader(authorizationHeader));
-        if (tokenOpt.isEmpty()) {
+        if (tokenOpt.isEmpty() && request.getCookies() != null) {
             Optional<Cookie> cookieOptional = Arrays.stream(request.getCookies())
                     .filter(c -> c.getName().equals(tokenCookieKey))
                     .findFirst();

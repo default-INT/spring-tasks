@@ -1,9 +1,11 @@
 package by.gstu.springsecurity.service;
 
-import by.gstu.springsecurity.dto.UserRequestDto;
 import by.gstu.springsecurity.dto.UserDto;
+import by.gstu.springsecurity.exception.IllegalInsertEntityExistException;
 import by.gstu.springsecurity.exception.JwtAuthenticationException;
-import by.gstu.springsecurity.model.*;
+import by.gstu.springsecurity.model.Role;
+import by.gstu.springsecurity.model.Status;
+import by.gstu.springsecurity.model.User;
 import by.gstu.springsecurity.repository.UserRepository;
 import by.gstu.springsecurity.security.JwtTokenProvider;
 import org.springframework.http.ResponseEntity;
@@ -76,6 +78,17 @@ public class UserService {
         String token = jwtTokenProvider.createToken(user.getUsername(), user.getRole().name());
         return UserDto.of(user.getUsername(), user.getFirstName(), user.getLastName(),
                 user.getRole().name().toLowerCase(), token);
+    }
+
+    public UserDto registration(UserDto userDto) {
+        User user = User.of(userDto);
+        if (userRepository.existsByUsername(user.getUsername())) {
+            throw new IllegalInsertEntityExistException("User with username='" + user.getUsername() + "' exists");
+        }
+        user.setPassword(PASSWORD_ENCODER.encode(user.getPassword()));
+        userRepository.save(user);
+
+        return login(userDto);
     }
 
     public boolean validUuid(String uuid) {

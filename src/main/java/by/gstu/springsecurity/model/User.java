@@ -1,10 +1,26 @@
 package by.gstu.springsecurity.model;
 
+import by.gstu.springsecurity.dto.UserDto;
+
 import javax.persistence.*;
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "users")
 public class User {
+
+    public static User of(UserDto userDto) {
+        User user = new User();
+
+        user.setUsername(userDto.getUsername());
+        user.setFirstName(userDto.getFirstName());
+        user.setLastName(userDto.getLastName());
+        user.setPassword(userDto.getPassword());
+        user.setStatus(Status.ACTIVE);
+        user.setRole(Role.USER);
+
+        return user;
+    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

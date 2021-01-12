@@ -24,6 +24,18 @@ public class UserDto {
         return user;
     }
 
+    public static UserDto of(UserDto rawUser) {
+        UserDto user = new UserDto();
+
+        user.setUsername(rawUser.getUsername());
+        user.setFirstName(rawUser.getFirstName());
+        user.setLastName(rawUser.getLastName());
+        user.setRole(rawUser.getRole());
+        user.setToken(rawUser.getToken());
+
+        return user;
+    }
+
     public static UserDto of(String username, String firstName, String lastName, String role, String token) {
         UserDto user = new UserDto();
 

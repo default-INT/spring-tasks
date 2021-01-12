@@ -1,32 +1,78 @@
+'use strict'
 
-const drawImageToCanvas = (canvas, imgPath, canvasWidth, canvasHeight) => {
+const lastCanvasCtx = {}
+const activeImg = {
+
+}
+
+const drawImageToCanvas = (canvas, pic, canvasWidth, canvasHeight) => {
     canvas.width = canvasWidth
     canvas.height = canvasHeight
 
     const ctx = canvas.getContext('2d')
 
-    const pic = new Image()
-    pic.src = url + '/uploads/' + imgPath
-
     pic.onload = function() {
         const [width, height] = resizeToBounds(pic.width, pic.height, canvas.width, canvas.height)
         ctx.drawImage(resize(pic, width, height), canvas.width / 2 - width / 2, 0)
-
     }
 }
 
 const modalImageComponentShow = img => {
-    const state = {
-        width: img.width,
-        height: img.height
-    }
     modalContainer.innerHTML += ModalImageHTML(img);
     const canvas = document.getElementById('imgCanvas')
-    drawImageToCanvas(canvas, img.filePath, 800, 800)
+    const pic = new Image()
+
+    // pic.setAttribute('crossOrigin', '');
+    pic.crossOrigin = 'Anonymous'
+    pic.src = url + '/uploads/' + img.filePath
+    activeImg.image = pic
+    drawImageToCanvas(canvas, pic, 800, 800)
+}
+
+const setEffect = (e, effect) => {
+    const canvas = document.getElementById('imgCanvas')
+    const ctx = canvas.getContext('2d')
+
+    if (e.classList.contains('enable')) {
+        const imgData = lastCanvasCtx[effect]
+        lastCanvasCtx[effect] = undefined
+        ctx.putImageData(imgData, 0, 0)
+        e.classList.remove('enable')
+        return;
+    }
+
+    const [width, height] = [canvas.width, canvas.height]
+    const imgData = ctx.getImageData(0, 0, width, height)
+    lastCanvasCtx[effect] = copyImageData(ctx, imgData)
+    const effectImgData = effectDispatch(imgData)[effect]() || effectDispatch(imgData)['DEFAULT']()
+    ctx.putImageData(effectImgData, 0, 0)
+
+    e.classList.add('enable')
 }
 
 const applyChanges = (img) => {
     console.log(img)
+}
+
+const downloadClick = () => {
+    const canvas = document.createElement('canvas')
+    canvas.width = activeImg.image.width
+    canvas.height = activeImg.image.height
+    const ctx = canvas.getContext('2d')
+
+    ctx.drawImage(activeImg.image, 0, 0, activeImg.image.width, activeImg.image.height)
+    const [width, height] = [canvas.width, canvas.height]
+    const imgData = ctx.getImageData(0, 0, width, height)
+
+    for (let prop in lastCanvasCtx) {
+        const effectImgData = effectDispatch(imgData)[prop]() || effectDispatch(imgData)['DEFAULT']()
+        ctx.putImageData(effectImgData, 0, 0)
+    }
+    const dataURL = canvas.toDataURL("image/jpeg");
+    const link = document.createElement("a");
+    link.href = dataURL;
+    link.download = "my-image-name.jpg";
+    link.click();
 }
 
 const ModalImageHTML = img => {
@@ -53,14 +99,15 @@ const ModalImageHTML = img => {
             <div class="util-item">
                 <div class="util-title">Effects</div>
                 <div class="util-body">
-                    <a class="default-btn enable">Blur</a>
+                    <a class="default-btn" onclick="setEffect(this, 'BLUR')">Blur 4x</a>
+                    <a class="default-btn" onclick="setEffect(this, 'SEPIA')">Sepia</a>
                     <a class="default-btn">Negative</a>
                 </div>
             </div>
         </div>
         <div class="end-block">
             <a class="default-btn" onclick="${applyChanges(img)}">Apply</a>
-            <a class="default-btn downland-btn">Downland</a>
+            <a class="default-btn downland-btn" onclick="downloadClick()">Downland</a>
         </div>
       </div>
     </div>
@@ -68,43 +115,15 @@ const ModalImageHTML = img => {
 </div>`
 }
 
-function resize(img, w, h) {
-    let sW = img.width;
-    let sH = img.height;
-    let x = 2;
-
-    while (sW > w) {
-        sW = Math.round(sW / x);
-        sH = Math.round(sH / x);
-        if (sW < w) {
-            sW = w;
-            sH = h;
-        }
-        let canvas = document.createElement('canvas');
-        canvas.width = sW;
-        canvas.height = sH;
-        canvas.getContext('2d').drawImage(img, 0, 0, sW, sH);
-        img = canvas;
-    }
-    return img;
-}
-
-function resizeToBounds(imgW, imgH, boundsW, boundsH) {
-    if (imgW <= boundsW && imgH <= boundsH) {
-        return null;
-    }
-    const rw = boundsW / imgW;
-    const rh = boundsH / imgH;
-    const r = Math.min(rw, rh);
-    return [Math.round(imgW * r), Math.round(imgH * r)]
-}
-
-
-
 
 const ItemImg = image => {
     const canvas = node({type: 'canvas'})
-    drawImageToCanvas(canvas, image.filePath, 400, 400)
+
+    const pic = new Image()
+    pic.crossOrigin = 'Anonymous'
+    pic.src = url + '/uploads/' + image.filePath
+
+    drawImageToCanvas(canvas, pic, 400, 400)
 
     return  node({
         id: 'image' + image.id,
@@ -152,6 +171,7 @@ imgListDOM.appendChild(Loader)
 
 function closeModal() {
     modalContainer.innerHTML = ''
+    activeImg.image = undefined
 }
 
 function openModal(img) {

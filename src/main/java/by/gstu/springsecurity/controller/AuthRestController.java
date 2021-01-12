@@ -2,7 +2,6 @@ package by.gstu.springsecurity.controller;
 
 import by.gstu.springsecurity.dto.PermissionRequestDto;
 import by.gstu.springsecurity.dto.UserDto;
-import by.gstu.springsecurity.dto.UserRequestDto;
 import by.gstu.springsecurity.model.Permission;
 import by.gstu.springsecurity.model.Role;
 import by.gstu.springsecurity.service.RolePermissionService;

@@ -28,7 +28,9 @@
                 {{user.username}}
             </a>
             <div class="manage-btn">
-                <a href="" class="login default-link">Log out</a>
+                <form action="/auth/logout" method="POST">
+                    <a onclick="this.closest('form').submit();return false;" class="login default-link">Log out</a>
+                </form>
             </div>
         </div>
     </header>
