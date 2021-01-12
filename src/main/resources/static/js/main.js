@@ -146,6 +146,9 @@ fetch(url + '/uploads')
         images.forEach(img => {
             imgListDOM.appendChild(ItemImg(img))
         });
+        if (images.length === 0) {
+            imgListDOM.innerHTML = 'No images'
+        }
 })
 
 imgListDOM.appendChild(Loader)

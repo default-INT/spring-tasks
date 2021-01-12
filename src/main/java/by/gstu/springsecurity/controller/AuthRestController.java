@@ -1,6 +1,7 @@
 package by.gstu.springsecurity.controller;
 
 import by.gstu.springsecurity.dto.PermissionRequestDto;
+import by.gstu.springsecurity.dto.UserDto;
 import by.gstu.springsecurity.dto.UserRequestDto;
 import by.gstu.springsecurity.model.Permission;
 import by.gstu.springsecurity.model.Role;
@@ -63,7 +64,7 @@ public class AuthRestController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> authenticate(@RequestBody UserRequestDto request) {
+    public ResponseEntity<?> authenticate(@RequestBody UserDto request) {
         try {
             return ResponseEntity.ok(userService.login(request));
         } catch (AuthenticationException e) {

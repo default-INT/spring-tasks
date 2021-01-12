@@ -1,16 +1,17 @@
 package by.gstu.springsecurity.service;
 
 import by.gstu.springsecurity.dto.UserRequestDto;
-import by.gstu.springsecurity.dto.UserResponseDto;
+import by.gstu.springsecurity.dto.UserDto;
+import by.gstu.springsecurity.exception.JwtAuthenticationException;
 import by.gstu.springsecurity.model.*;
-import by.gstu.springsecurity.repository.RolePermissionRepository;
 import by.gstu.springsecurity.repository.UserRepository;
 import by.gstu.springsecurity.security.JwtTokenProvider;
-import org.springframework.context.annotation.Bean;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -60,14 +61,20 @@ public class UserService {
         ));
     }
 
-    public UserResponseDto login(UserRequestDto userRequestDto) throws AuthenticationException {
+    public UserDto getCurrentUser() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        return UserDto.of(userRepository.findByUsername(auth.getName())
+            .orElseThrow(() -> new JwtAuthenticationException("Not found user on token")));
+    }
+
+    public UserDto login(UserDto userRequestDto) throws AuthenticationException {
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(userRequestDto.getUsername(), userRequestDto.getPassword())
         );
         User user = userRepository.findByUsername(userRequestDto.getUsername())
                 .orElseThrow(() -> new UsernameNotFoundException("User doesn't exist"));
         String token = jwtTokenProvider.createToken(user.getUsername(), user.getRole().name());
-        return UserResponseDto.of(user.getUsername(), user.getFirstName(), user.getLastName(),
+        return UserDto.of(user.getUsername(), user.getFirstName(), user.getLastName(),
                 user.getRole().name().toLowerCase(), token);
     }
 

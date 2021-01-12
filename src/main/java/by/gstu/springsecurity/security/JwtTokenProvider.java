@@ -16,18 +16,20 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.Optional;
 
 @Component
 public class JwtTokenProvider {
 
     private final UserDetailsService userDetailsService;
-    private final UserRepository userRepository;
 
     @Value("${jwt.secretkey}")
     private String secretKey;
 
     @Value("${jwt.header}")
     private String authorizationHeader;
+    @Value("${cookie.key}")
+    private String tokenCookieKey;
     @Value("${jwt.expiration}")
     private long validityMilliseconds;
     @Value("${jwt.guest.expiration}")
@@ -39,7 +41,6 @@ public class JwtTokenProvider {
 
     public JwtTokenProvider(@Qualifier("userDetailsServiceImpl") UserDetailsService userDetailsService, UserRepository userRepository) {
         this.userDetailsService = userDetailsService;
-        this.userRepository = userRepository;
     }
 
     public String createToken(String username, String role) {
@@ -80,11 +81,14 @@ public class JwtTokenProvider {
                 .getSubject();
     }
 
-    public String resolveToken(HttpServletRequest request) {
-        String token = request.getHeader(authorizationHeader);
-        if (token == null && request.getSession().getAttribute("token") != null) {
-            token = (String) request.getSession().getAttribute("token");
+    public Optional<String> resolveToken(HttpServletRequest request) {
+        Optional<String> tokenOpt = Optional.ofNullable(request.getHeader(authorizationHeader));
+        if (tokenOpt.isEmpty()) {
+            Optional<Cookie> cookieOptional = Arrays.stream(request.getCookies())
+                    .filter(c -> c.getName().equals(tokenCookieKey))
+                    .findFirst();
+            return cookieOptional.map(Cookie::getValue);
         }
-        return token;
+        return tokenOpt;
     }
 }

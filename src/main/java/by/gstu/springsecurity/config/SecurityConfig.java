@@ -29,10 +29,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable()
-
                 .authorizeRequests()
                 .antMatchers("/temp/**", "/profile/**").hasAuthority("DEFAULT")
-                .antMatchers("/test/**").hasRole(Role.USER.name())
                 .antMatchers(
                         "/api/auth/login",
                         "/api/auth/guest",
@@ -40,8 +38,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         "/static/**",
                         "/auth/**"
                 ).permitAll()
-                .antMatchers("/test").permitAll()
                 .antMatchers("/api/auth/add-user-permission").hasAuthority(Permission.ADMIN_PERMISSION.name())
+                .antMatchers("/**").hasAuthority(Permission.DEFAULT.name())
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()

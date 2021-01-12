@@ -19,12 +19,12 @@
         <div class="main-container">
             <div class="title">Image maker</div>
             <nav>
-                <a href="" class="default-link nav-link">Main</a>
-                <a href="" class="default-link nav-link">Images</a>
+                <a href="/" class="default-link nav-link">Main</a>
+                <a href="/" class="default-link nav-link">Images</a>
             </nav>
         </div>
         <div class="user-control">
-            <a class="username default-link">
+            <a class="username default-link" href="/profile">
                 {{user.username}}
             </a>
             <div class="manage-btn">
@@ -46,7 +46,6 @@
         </div>
     </main>
     <script>
-        history.pushState('','','/');
     </script>
     <script src="/static/js/util.js"></script>
     <script src="/static/js/main.js">

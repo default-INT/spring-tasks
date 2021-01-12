@@ -1,16 +1,31 @@
 package by.gstu.springsecurity.dto;
 
-public class UserResponseDto {
+import by.gstu.springsecurity.model.User;
 
-    public static UserResponseDto of(String username, String token) {
-        UserResponseDto user = new UserResponseDto();
+import javax.persistence.Transient;
+
+public class UserDto {
+
+    public static UserDto of(String username, String token) {
+        UserDto user = new UserDto();
         user.setUsername(username);
         user.setToken(token);
         return user;
     }
 
-    public static UserResponseDto of(String username, String firstName, String lastName, String role, String token) {
-        UserResponseDto user = new UserResponseDto();
+    public static UserDto of(User rawUser) {
+        UserDto user = new UserDto();
+
+        user.setUsername(rawUser.getUsername());
+        user.setFirstName(rawUser.getFirstName());
+        user.setLastName(rawUser.getLastName());
+        user.setRole(rawUser.getRole().name().toLowerCase());
+
+        return user;
+    }
+
+    public static UserDto of(String username, String firstName, String lastName, String role, String token) {
+        UserDto user = new UserDto();
 
         user.setUsername(username);
         user.setFirstName(firstName);
@@ -21,20 +36,30 @@ public class UserResponseDto {
     }
 
     private String username;
+    @Transient
+    private String password;
     private String firstName;
     private String lastName;
     private String role;
     private String token;
 
-    public UserResponseDto() {
+    public UserDto() {
     }
 
-    public UserResponseDto(String username, String firstName, String lastName, String role, String token) {
+    public UserDto(String username, String firstName, String lastName, String role, String token) {
         this.username = username;
         this.firstName = firstName;
         this.lastName = lastName;
         this.role = role;
         this.token = token;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public String getRole() {
