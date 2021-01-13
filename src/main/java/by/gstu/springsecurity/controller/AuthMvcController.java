@@ -27,12 +27,11 @@ public class AuthMvcController {
         this.userService = userService;
     }
 
-    //TODO: logout not work
     @PostMapping("/logout")
     public String logout(HttpServletRequest request, HttpServletResponse response) {
         SecurityContextLogoutHandler securityContextLogoutHandler = new SecurityContextLogoutHandler();
         securityContextLogoutHandler.logout(request, response, null);
-        SecurityContextHolder.createEmptyContext();
+        response.addCookie(new Cookie("token", null));
         return "redirect:/auth/login";
     }
 

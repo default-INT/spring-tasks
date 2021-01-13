@@ -32,11 +32,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter implements WebM
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/temp/**", "/profile/**").hasAuthority("DEFAULT")
+                .antMatchers("/temp/**", "/profile/**", "/uploads/**").hasAuthority("DEFAULT")
                 .antMatchers(
                         "/api/auth/login",
                         "/api/auth/guest",
-                        "/uploads/**",
                         "/static/**",
                         "/auth/**"
                 ).permitAll()

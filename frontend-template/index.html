@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="css/modal.css" />
     <link rel="stylesheet" href="css/loader.css" />
     <link rel="stylesheet" href="css/slider.css" />
+    <link rel="stylesheet" href="css/buttons.css" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#000000" />
 
@@ -38,39 +39,22 @@
             <div id="modalContainer"></div>
             <div class="fragment">
                 <div class="fragment-title">
-                    Images
+                    <div class="text">Images</div>
+                    <button class="icon-btn add-btn">
+                        <div class="add-icon"></div>
+                        <a href="#openModal" onclick="modalAddImageShow()">
+                            <div class="btn-txt">Add</div>
+                        </a>
+                    </button>
                 </div>
                 <div class="fragment-content image-list">
-<!--                    <div class="item image light-shadow" id="image1t">-->
-<!--                        <a class="title-image default-link" onclick="openModal('image1')" href="#openModal">-->
-<!--                            Image 1 / (png, jpg)-->
-<!--                        </a>-->
-<!--                        <canvas id="image1"></canvas>-->
-<!--                    </div>-->
-<!--                    <div class="item image light-shadow" id="image2">-->
-<!--                        <a class="title-image default-link" onclick="openModal('image1')" href="#openModal">-->
-<!--                            Image 1 / (png, jpg)-->
-<!--                        </a>-->
-<!--                        <canvas></canvas>-->
-<!--                    </div>-->
-<!--                    <div class="item image light-shadow" id="image3">-->
-<!--                        <a class="title-image default-link" onclick="openModal('image1')" href="#openModal">-->
-<!--                            Image 1 / (png, jpg)-->
-<!--                        </a>-->
-<!--                        <canvas></canvas>-->
-<!--                    </div>-->
-<!--                    <div class="item image light-shadow" id="image4">-->
-<!--                        <a class="title-image default-link" onclick="openModal('image1')" href="#openModal">-->
-<!--                            Image 1 / (png, jpg)-->
-<!--                        </a>-->
-<!--                        <canvas></canvas>-->
-<!--                    </div>-->
                     
                 </div>
             </div>
         </div>
     </main>
     <script src="js/stackBlur.js"></script>
+    <script src="js/uiElements.js"></script>
     <script src="js/util.js"></script>
     <script src="js/main.js"></script>
 </div>

@@ -21,9 +21,6 @@ public class Image {
     @Column
     private int height;
 
-    @OneToMany(mappedBy = "image")
-    private Set<ImageEffect> imageEffects;
-
     public String getName() {
         return name;
     }
@@ -38,18 +35,6 @@ public class Image {
 
     public void setContentType(String contentType) {
         this.contentType = contentType;
-    }
-
-    public void setImageEffects(Set<ImageEffect> imageEffects) {
-        this.imageEffects = imageEffects;
-    }
-
-    public Collection<ImageEffect> getImageEffects() {
-        return imageEffects;
-    }
-
-    public void setEffects(Set<ImageEffect> imageEffects) {
-        this.imageEffects = imageEffects;
     }
 
     public Long getId() {

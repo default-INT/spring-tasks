@@ -2,7 +2,6 @@ package by.gstu.springsecurity.service;
 
 import by.gstu.springsecurity.exception.ImageWriteException;
 import by.gstu.springsecurity.model.Image;
-import by.gstu.springsecurity.repository.ImageEffectRepository;
 import by.gstu.springsecurity.repository.ImageRepository;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -23,11 +22,9 @@ public class ImageService {
     private final static String UPLOAD_DIR = System.getProperty("user.dir") + "/uploads";
 
     private final ImageRepository imageRepository;
-    private final ImageEffectRepository imageEffectRepository;
 
-    public ImageService(ImageRepository imageRepository, ImageEffectRepository imageEffectRepository) {
+    public ImageService(ImageRepository imageRepository) {
         this.imageRepository = imageRepository;
-        this.imageEffectRepository = imageEffectRepository;
     }
 
     public List<Image> findAll() {

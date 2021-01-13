@@ -1,7 +1,6 @@
 'use strict'
 
 
-
 const lastCanvasCtx = {}
 let lastCanvasValue;
 let actualColor;
@@ -21,6 +20,10 @@ const drawImageToCanvas = (canvas, pic, canvasWidth, canvasHeight) => {
         const imgData = ctx.getImageData(0, 0, canvas.width, canvas.height)
         lastCanvasValue = copyImageData(ctx, imgData)
     }
+}
+
+const modalAddImageShow = () => {
+    modalContainer.innerHTML += ModalAddImageHTML()
 }
 
 const modalImageComponentShow = img => {
@@ -66,8 +69,6 @@ const setColor = () => {
     const canvas = document.getElementById('imgCanvas')
     const ctx = canvas.getContext('2d')
     const imgData = copyImageData(ctx, lastCanvasValue)
-    // const [width, height] = [canvas.width, canvas.height]
-    // const imgData = ctx.getImageData(0, 0, width, height)
     actualColor = {red: +redSliderDOM.value, green: +greenSliderDOM.value, blue: +blueSliderDOM.value}
     const newColorData = colorChanger(imgData, actualColor)
     ctx.putImageData(newColorData, 0, 0)
@@ -125,70 +126,16 @@ const labelValueState = (labelId, valueDomEl) => {
     document.getElementById(labelId).innerHTML = valueDomEl.value
 }
 
-const SliderHTML = (colorId) => `<div class="slider-container">
-  <div class="range-slider">
-    <span class="rs-label" id="rs-label-${colorId}">0</span>
-    <input class="rs-range" id="rs-${colorId}" type="range" value="0" min="0" max="255" 
-        oninput="labelValueState('rs-label-${colorId}', this)">
-  </div>
-</div>`
-
-const ModalImageHTML = img => {
-    return `<div id="openModal" class="modal">
-  <div class="modal-dialog img-setting-block">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h3 class="modal-title">${img.name}</h3>
-        <a href="#close" title="Close" class="close" onclick="closeModal()">×</a>
-      </div>
-      <div class="modal-body">    
-        <div class="img-block">
-            <canvas id="imgCanvas"></canvas>
-        </div>
-        <div class="utils-block">
-            <div class="title">Settings</div>
-            <div class="util-item">
-                <div class="util-title">Size change</div>
-                <div class="util-body">
-                    <input type="number" placeholder="width" onchange="setWidth(this.value)" value="${img.width}">
-                    <input type="number" placeholder="height" onchange="setHeight(this.height)" value="${img.height}">
-                </div>
-            </div>
-            <div class="util-item">
-                <div class="util-title">Effects</div>
-                <div class="util-body">
-                    <a class="default-btn" onclick="setEffect(this, 'BLUR')">Blur 4x</a>
-                    <a class="default-btn" onclick="setEffect(this, 'SEPIA')">Sepia</a>
-                    <a class="default-btn">Negative</a>
-                </div>
-                <div class="util-colors">
-                    <div class="prop">
-                        <div class="prop-name">Red: </div>
-                        <div class="prop-value">${SliderHTML('red')}</div>
-                    </div>
-                    <div class="prop">
-                        <div class="prop-name">Blue: </div>
-                        <div class="prop-value">${SliderHTML('blue')}</div>
-                    </div>
-                    <div class="prop">
-                        <div class="prop-name">Green: </div>
-                        <div class="prop-value">${SliderHTML('green')}</div>
-                    </div>
-                    <div class="prop">
-                        <a class="default-btn" onclick="setColor()" >Apply color</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="end-block">
-            <a class="default-btn" onclick="applyChanges()">Apply</a>
-            <a class="default-btn downland-btn" onclick="downloadClick()">Downland</a>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>`
+const loadImage = async () => {
+    const imgFormLoadDOM = document.getElementById('imgFormLoad')
+    const response = await fetch(url + '/uploads/load-img', {
+        method: 'POST',
+        body: new FormData(imgFormLoadDOM)
+    })
+    loadData()
+    closeModal()
 }
+
 
 
 const ItemImg = image => {
@@ -245,9 +192,9 @@ const loadData = () => {
         }
         images.forEach(img => {
             imgListDOM.appendChild(ItemImg(img))
-        }).catch(resolve => {
-            imgListDOM.innerHTML = 'Something went wrong...'
         })
+    }).catch(resolve => {
+        imgListDOM.innerHTML = 'Something went wrong...'
     })
 }
 

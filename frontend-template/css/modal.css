@@ -154,6 +154,14 @@
     margin: auto;
 }
 
+.modal .form-block {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 1rem;
+    border-bottom: 1px solid #dce6e6;
+}
+
 .util-item .util-colors .prop {
     display: flex;
     align-items: center;

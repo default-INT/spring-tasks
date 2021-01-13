@@ -112,7 +112,7 @@
     overflow: auto;
 }
 
-.img-setting-block .img-block { 
+.img-setting-block .img-block {
     padding: 1rem;
     border-bottom: 1px solid #dce6e6;
     display: flex;
@@ -143,5 +143,27 @@
     padding: 2rem;
     text-align: center;
     padding-bottom: 1rem;
+    justify-content: space-between;
+}
+
+.util-item .util-colors {
+    padding: 1rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid #dce6e6;
+    width: 60%;
+    margin: auto;
+}
+
+.modal .form-block {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 1rem;
+    border-bottom: 1px solid #dce6e6;
+}
+
+.util-item .util-colors .prop {
+    display: flex;
+    align-items: center;
     justify-content: space-between;
 }

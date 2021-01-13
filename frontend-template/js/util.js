@@ -164,11 +164,6 @@ const colorChanger = function (imageData, color) {
     return imageData;
 };
 
-const colorDispatch =(imageData, colorValue) => ({
-    ['RED'] : () => colorChanger(imageData, {red: colorValue}),
-    ['BLUE'] : () => colorChanger(imageData, {blue: colorValue}),
-    ['GREEN'] : () => colorChanger(imageData, {green: colorValue}),
-})
 
 const effectDispatch = (imageData) => ({
     ['SEPIA'] : () => sepia(imageData),

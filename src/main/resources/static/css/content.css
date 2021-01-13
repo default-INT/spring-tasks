@@ -45,6 +45,18 @@ main .item canvas {
     /*! width: 20rem; */
 }
 
+main .fragment .fragment-title {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+main .fragment .fragment-title .add-img-btn {
+    padding-bottom: 1vmin;
+    border: 4px solid black;
+    border-radius: 2vmax;
+}
+
 main .fragment .profile {
     font-size: 1.5em;
     padding-left: 2rem;

@@ -43,8 +43,9 @@ public class JwtTokenFilter extends GenericFilterBean {
             }
         } catch (JwtAuthenticationException e) {
             SecurityContextHolder.clearContext();
-            ((HttpServletResponse) servletResponse).sendError(HttpStatus.UNAUTHORIZED.value(), e.getMessage());
-            throw e;
+            logger.warn(e.getMessage());
+//            ((HttpServletResponse) servletResponse).sendError(HttpStatus.UNAUTHORIZED.value(), e.getMessage());
+//            throw e;
         } catch (ExpiredJwtException e) {
             String urlPath = ((HttpServletRequest) servletRequest).getServletPath();
             SecurityContextHolder.clearContext();

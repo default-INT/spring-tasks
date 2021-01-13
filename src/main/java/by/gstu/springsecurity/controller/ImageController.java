@@ -34,7 +34,7 @@ public class ImageController {
     @PostMapping("/load-img")
     public ResponseEntity<?> loadImage(final @RequestParam("file") MultipartFile file, final @RequestParam("name") String name) {
         try {
-            if (file == null) {
+            if (file == null || name == null || name.trim().isEmpty()) {
                 return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
             }
             imageService.addImage(file, name);
