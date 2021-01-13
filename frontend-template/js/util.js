@@ -149,6 +149,27 @@ const sepia = function (imageData) {
     return imageData;
 };
 
+const colorChanger = function (imageData, color) {
+    // получаем одномерный массив, описывающий все пиксели изображения
+    const pixels = imageData.data;
+    // циклически преобразуем массив, изменяя значения красного, зеленого и синего каналов
+    for (let i = 0; i < pixels.length; i += 4) {
+        const r = pixels[i];
+        const g = pixels[i + 1];
+        const b = pixels[i + 2];
+        pixels[i]     = color.red ? r <= color.red ? color.red : 0 : r; // red
+        pixels[i + 1] = color.green ? g <= color.green ? color.green : 0 : pixels[i]; // green
+        pixels[i + 2] = color.blue ? b <= color.blue ? color.blue : 0 : pixels[i]; // blue
+    }
+    return imageData;
+};
+
+const colorDispatch =(imageData, colorValue) => ({
+    ['RED'] : () => colorChanger(imageData, {red: colorValue}),
+    ['BLUE'] : () => colorChanger(imageData, {blue: colorValue}),
+    ['GREEN'] : () => colorChanger(imageData, {green: colorValue}),
+})
+
 const effectDispatch = (imageData) => ({
     ['SEPIA'] : () => sepia(imageData),
     ['BLUR'] : () => stackBlurImage(imageData, 4),
