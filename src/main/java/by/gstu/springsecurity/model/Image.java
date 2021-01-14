@@ -2,6 +2,7 @@ package by.gstu.springsecurity.model;
 
 import javax.persistence.*;
 import java.util.Collection;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -67,5 +68,23 @@ public class Image {
 
     public void setHeight(int height) {
         this.height = height;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Image image = (Image) o;
+        return width == image.width &&
+                height == image.height &&
+                Objects.equals(id, image.id) &&
+                Objects.equals(filePath, image.filePath) &&
+                Objects.equals(name, image.name) &&
+                Objects.equals(contentType, image.contentType);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, filePath, name, contentType, width, height);
     }
 }

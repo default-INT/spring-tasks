@@ -1,6 +1,7 @@
 package by.gstu.springsecurity.model;
 
 import javax.persistence.*;
+import java.util.Objects;
 
 @Entity
 @Table(name = "roles_permissions")
@@ -46,5 +47,20 @@ public class RolePermission {
 
     public void setRole(Role role) {
         this.role = role;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        RolePermission that = (RolePermission) o;
+        return Objects.equals(id, that.id) &&
+                permission == that.permission &&
+                role == that.role;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, permission, role);
     }
 }
