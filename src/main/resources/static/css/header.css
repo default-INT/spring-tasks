@@ -21,7 +21,7 @@ header .user-control {
 
 header .user-control .username {
     padding: .8rem;
-    border-right: 2px solid #dce6e6; 
+    border-right: 2px solid #dce6e6;
 }
 
 header .user-control .manage-btn {
@@ -47,4 +47,10 @@ header nav .nav-link {
 
 header a {
     color: #69707a;
+}
+
+@media (max-width: 580px) {
+    header {
+        flex-direction: column;
+    }
 }

@@ -16,7 +16,7 @@
     padding: 0;
 }
 /* при отображении модального окно */
-.modal:target {
+.modal {
     opacity: 1; /* делаем окно видимым */
     pointer-events: auto; /* элемент видим для событий мыши */
     overflow-y: auto; /* добавляем прокрутку по y, когда элемент не помещается на страницу */
@@ -120,7 +120,7 @@
 }
 
 .img-setting-block .img-block canvas {
-    width: 30rem;
+    width: 30vmax;
 }
 
 .img-setting-block .utils-block .title {

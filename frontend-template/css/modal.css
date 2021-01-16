@@ -120,7 +120,7 @@
 }
 
 .img-setting-block .img-block canvas {
-    width: 30rem;
+    width: 30vmax;
 }
 
 .img-setting-block .utils-block .title {

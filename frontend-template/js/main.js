@@ -134,6 +134,7 @@ const loadImage = async () => {
     })
     loadData()
     closeModal()
+    openModal()
 }
 
 
@@ -145,7 +146,7 @@ const ItemImg = image => {
     pic.crossOrigin = 'Anonymous'
     pic.src = url + '/uploads/' + image.filePath
 
-    drawImageToCanvas(canvas, pic, 400, 400)
+    drawImageToCanvas(canvas, pic, 320, 320)
 
     return  node({
         id: 'image' + image.id,

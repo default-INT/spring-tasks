@@ -138,6 +138,8 @@ const loadImage = async () => {
     }
     loadData()
     closeModal()
+    const img = await response.json()
+    openModal(img)
 }
 
 
@@ -158,7 +160,6 @@ const ItemImg = image => {
             node({
                 type: 'a',
                 classList: ['title-image', 'default-link'],
-                href: "#openModal",
                 onclick: () => openModal(image),
                 children: `${image.name} / (${image.contentType.split('/')[1]})`
             }),

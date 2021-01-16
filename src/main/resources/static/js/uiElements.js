@@ -33,7 +33,7 @@ const ModalImageHTML = img => {
     <div class="modal-content">
       <div class="modal-header">
         <h3 class="modal-title">${img.name}</h3>
-        <a href="#close" title="Close" class="close" onclick="closeModal()">×</a>
+        <a title="Close" class="close" onclick="closeModal()">×</a>
       </div>
       <div class="modal-body">    
         <div class="img-block">

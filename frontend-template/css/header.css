@@ -48,3 +48,9 @@ header nav .nav-link {
 header a {
     color: #69707a;
 }
+
+@media (max-width: 580px) {
+    header {
+        flex-direction: column;
+    }
+}

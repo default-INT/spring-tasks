@@ -8,8 +8,8 @@
         <version>2.4.0</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-    <groupId>by.gstu</groupId>
-    <artifactId>springsecurity</artifactId>
+    <groupId>com.asistlab</groupId>
+    <artifactId>imagemaker</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>springsecurity</name>
     <description>Authorization - Spring Security</description>
