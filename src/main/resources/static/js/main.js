@@ -32,7 +32,7 @@ const modalImageComponentShow = img => {
     const pic = new Image()
 
     pic.crossOrigin = 'Anonymous'
-    pic.src = url + '/uploads/' + img.filePath
+    pic.src = img.filePath.includes('base64') ? img.filePath : url + '/uploads/' + img.filePath
     activeImg.image = pic
     drawImageToCanvas(canvas, pic, 800, 800)
 }
@@ -128,20 +128,48 @@ const labelValueState = (labelId, valueDomEl) => {
 
 const loadImage = async () => {
     const imgFormLoadDOM = document.getElementById('imgFormLoad')
-    const response = await fetch(url + '/uploads/load-img', {
-        method: 'POST',
-        body: new FormData(imgFormLoadDOM)
-    })
-    if (!response.ok) {
-        alert('Failed to load image')
-        return ;
-    }
-    loadData()
-    closeModal()
-    const img = await response.json()
-    openModal(img)
-}
+    const formData = new FormData(imgFormLoadDOM)
+    const image = formData.get('file')
+    const reader = new FileReader()
 
+    reader.onloadend = () => {
+        const domImg = new Image()
+        domImg.src = reader.result
+        domImg.onload = () => {
+            const img = {
+                filePath: reader.result,
+                contentType: image.type,
+                width: domImg.width,
+                height: domImg.height
+            }
+            console.log(img)
+            // loadData()
+            closeModal()
+            // const img = await response.json()
+            openModal(img)
+        }
+
+    }
+
+    if (image) {
+        reader.readAsDataURL(image)
+    } else {
+        alert('Image incorrect')
+    }
+
+    // const response = await fetch(url + '/uploads/load-img', {
+    //     method: 'POST',
+    //     body: new FormData(imgFormLoadDOM)
+    // })
+    // if (!response.ok) {
+    //     alert('Failed to load image')
+    //     return ;
+    // }
+    // loadData()
+    // closeModal()
+    // // const img = await response.json()
+    // openModal(img)
+}
 
 
 const ItemImg = image => {
@@ -161,7 +189,7 @@ const ItemImg = image => {
                 type: 'a',
                 classList: ['title-image', 'default-link'],
                 onclick: () => openModal(image),
-                children: `${image.name} / (${image.contentType.split('/')[1]})`
+                children: `${image.name} / (${image.contentType.split('/')[1]}) - ${img.user.username}`
             }),
             node({
                 id: 'canvas' + image.id,

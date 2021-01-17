@@ -1,5 +1,8 @@
 package com.asistlab.imagemaker.model;
 
+import com.asistlab.imagemaker.model.enums.Permission;
+import com.asistlab.imagemaker.model.enums.Role;
+
 import javax.persistence.*;
 import java.util.Objects;
 

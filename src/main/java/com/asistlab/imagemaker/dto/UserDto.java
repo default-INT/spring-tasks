@@ -16,6 +16,7 @@ public class UserDto {
     public static UserDto of(User rawUser) {
         UserDto user = new UserDto();
 
+        user.setId(rawUser.getId());
         user.setUsername(rawUser.getUsername());
         user.setFirstName(rawUser.getFirstName());
         user.setLastName(rawUser.getLastName());
@@ -47,6 +48,7 @@ public class UserDto {
         return user;
     }
 
+    private Long id;
     private String username;
     @Transient
     private String password;
@@ -64,6 +66,14 @@ public class UserDto {
         this.lastName = lastName;
         this.role = role;
         this.token = token;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getPassword() {

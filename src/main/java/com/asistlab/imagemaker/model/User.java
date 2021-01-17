@@ -1,9 +1,12 @@
 package com.asistlab.imagemaker.model;
 
 import com.asistlab.imagemaker.dto.UserDto;
+import com.asistlab.imagemaker.model.enums.Role;
+import com.asistlab.imagemaker.model.enums.Status;
 
 import javax.persistence.*;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @Table(name = "users")
@@ -45,6 +48,17 @@ public class User {
     @Column(length = 30)
     @Enumerated(value = EnumType.STRING)
     private Role role;
+
+    @OneToMany(mappedBy = "user")
+    private Set<Image> images;
+
+    public Set<Image> getImages() {
+        return images;
+    }
+
+    public void setImages(Set<Image> images) {
+        this.images = images;
+    }
 
     public Long getId() {
         return id;

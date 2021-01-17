@@ -1,8 +1,8 @@
 package com.asistlab.imagemaker.service;
 
 import com.asistlab.imagemaker.exception.IllegalInsertEntityExistException;
-import com.asistlab.imagemaker.model.Permission;
-import com.asistlab.imagemaker.model.Role;
+import com.asistlab.imagemaker.model.enums.Permission;
+import com.asistlab.imagemaker.model.enums.Role;
 import com.asistlab.imagemaker.model.RolePermission;
 import com.asistlab.imagemaker.repository.RolePermissionRepository;
 import org.springframework.security.core.GrantedAuthority;

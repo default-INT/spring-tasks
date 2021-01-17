@@ -2,8 +2,8 @@ package com.asistlab.imagemaker.controller;
 
 import com.asistlab.imagemaker.dto.PermissionRequestDto;
 import com.asistlab.imagemaker.dto.UserDto;
-import com.asistlab.imagemaker.model.Permission;
-import com.asistlab.imagemaker.model.Role;
+import com.asistlab.imagemaker.model.enums.Permission;
+import com.asistlab.imagemaker.model.enums.Role;
 import com.asistlab.imagemaker.service.RolePermissionService;
 import com.asistlab.imagemaker.service.UserService;
 import org.springframework.http.HttpStatus;

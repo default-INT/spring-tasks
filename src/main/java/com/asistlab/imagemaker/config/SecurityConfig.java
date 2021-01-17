@@ -1,6 +1,6 @@
 package com.asistlab.imagemaker.config;
 
-import com.asistlab.imagemaker.model.Permission;
+import com.asistlab.imagemaker.model.enums.Permission;
 import com.asistlab.imagemaker.security.JwtConfigurer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -29,7 +29,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter implements WebM
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/temp/**", "/profile/**").hasAuthority("DEFAULT")
                 .antMatchers(
                         "/api/auth/login",
                         "/api/auth/guest",
@@ -38,7 +37,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter implements WebM
                         "/uploads/**"
                 ).permitAll()
                 .antMatchers("/api/auth/add-user-permission").hasAuthority(Permission.ADMIN_PERMISSION.name())
-                .antMatchers("/**").hasAuthority(Permission.DEFAULT.name())
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()

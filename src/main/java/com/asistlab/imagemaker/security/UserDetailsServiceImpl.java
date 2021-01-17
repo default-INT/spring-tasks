@@ -1,6 +1,6 @@
 package com.asistlab.imagemaker.security;
 
-import com.asistlab.imagemaker.model.Status;
+import com.asistlab.imagemaker.model.enums.Status;
 import com.asistlab.imagemaker.model.User;
 import com.asistlab.imagemaker.repository.UserRepository;
 import com.asistlab.imagemaker.service.RolePermissionService;

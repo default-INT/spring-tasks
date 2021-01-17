@@ -1,4 +1,4 @@
-package com.asistlab.imagemaker.model;
+package com.asistlab.imagemaker.model.enums;
 
 public enum Role {
     ADMIN,

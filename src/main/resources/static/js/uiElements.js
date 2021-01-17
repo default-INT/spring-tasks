@@ -12,7 +12,7 @@ const ModalAddImageHTML = () => `<div id="openModal" class="modal">
     <div class="modal-content">
       <div class="modal-header">
         <h3 class="modal-title">Add new image</h3>
-        <a href="#close" title="Close" class="close" onclick="closeModal()">×</a>
+        <a title="Close" class="close" onclick="closeModal()">×</a>
       </div>
       <div class="modal-body">    
         <form class="form-block" id="imgFormLoad">
@@ -32,7 +32,7 @@ const ModalImageHTML = img => {
   <div class="modal-dialog img-setting-block">
     <div class="modal-content">
       <div class="modal-header">
-        <h3 class="modal-title">${img.name}</h3>
+        <h3 class="modal-title">${img.name || 'add'} / ${img.user.username || 'new image'}</h3>
         <a title="Close" class="close" onclick="closeModal()">×</a>
       </div>
       <div class="modal-body">    

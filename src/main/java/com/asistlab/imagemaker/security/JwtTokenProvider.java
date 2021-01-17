@@ -1,7 +1,7 @@
 package com.asistlab.imagemaker.security;
 
 import com.asistlab.imagemaker.exception.JwtAuthenticationException;
-import com.asistlab.imagemaker.model.Role;
+import com.asistlab.imagemaker.model.enums.Role;
 import com.asistlab.imagemaker.repository.UserRepository;
 import io.jsonwebtoken.*;
 import org.springframework.beans.factory.annotation.Qualifier;

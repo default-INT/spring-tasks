@@ -6,7 +6,8 @@ insert into users(first_name, last_name, password, role, status, username) -- Pa
 values ('Danil', 'Lipsky', '$2y$12$tlEq1zF/HEBCEq1h/chw/eXK5bE2R/RF6Mw1oYeSZQA6pLrBoC7ca', 'USER', 'ACTIVE', 'user')
 GO
 
-INSERT INTO roles_permissions(permission, role) VALUES ('ADMIN_PERMISSION', 'ADMIN');
-INSERT INTO roles_permissions(permission, role) VALUES ('DEFAULT', 'GUEST');
-INSERT INTO roles_permissions(permission, role) VALUES ('READ_ONLY', 'USER');
-INSERT INTO roles_permissions(permission, role) VALUES ('COMMENT', 'USER');
+INSERT INTO roles_permissions(permission, role) VALUES ('ADMIN_PERMISSION', 'ADMIN')
+INSERT INTO roles_permissions(permission, role) VALUES ('DEFAULT', 'GUEST')
+INSERT INTO roles_permissions(permission, role) VALUES ('READ_ONLY', 'USER')
+INSERT INTO roles_permissions(permission, role) VALUES ('COMMENT', 'USER')
+GO

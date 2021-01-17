@@ -1,7 +1,7 @@
 package com.asistlab.imagemaker.repository;
 
-import com.asistlab.imagemaker.model.Permission;
-import com.asistlab.imagemaker.model.Role;
+import com.asistlab.imagemaker.model.enums.Permission;
+import com.asistlab.imagemaker.model.enums.Role;
 import com.asistlab.imagemaker.model.RolePermission;
 import org.springframework.data.jpa.repository.JpaRepository;
 

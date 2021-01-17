@@ -1,6 +1,6 @@
 package com.asistlab.imagemaker.exception;
 
-public class ImageWriteException extends IllegalStateException {
+public class ImageWriteException extends FileWriteException {
 
     public ImageWriteException() {
     }

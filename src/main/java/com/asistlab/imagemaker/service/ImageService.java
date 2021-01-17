@@ -1,16 +1,17 @@
 package com.asistlab.imagemaker.service;
 
+import com.asistlab.imagemaker.dto.ImageDto;
+import com.asistlab.imagemaker.dto.UserDto;
+import com.asistlab.imagemaker.exception.FileWriteException;
 import com.asistlab.imagemaker.exception.ImageWriteException;
 import com.asistlab.imagemaker.model.Image;
 import com.asistlab.imagemaker.repository.ImageRepository;
+import com.asistlab.imagemaker.util.FileHelper;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
-import java.io.*;
 import java.nio.file.Paths;
 import java.util.List;
 import java.util.UUID;
@@ -31,29 +32,22 @@ public class ImageService {
         return imageRepository.findAll();
     }
 
-    public Image addImage(MultipartFile file, String name) {
+    public ImageDto addImage(MultipartFile file, String name, UserDto currentUser) {
         String fileName = file.getOriginalFilename();
         String contextFilePath = UUID.randomUUID().toString() + "." + fileName;
         String filePath = Paths.get(UPLOAD_DIR, contextFilePath).toString();
 
-        BufferedImage bufferedImage;
-
-        try (BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(new File(filePath)))) {
-            stream.write(file.getBytes());
-            bufferedImage = ImageIO.read(new ByteArrayInputStream(file.getBytes()));
-        } catch (IOException e) {
+        try {
+            FileHelper.writeData(filePath, file);
+        } catch (FileWriteException e) {
             logger.warn(e.getMessage());
             throw new ImageWriteException(e);
         }
-        Image image = new Image();
 
-        image.setName(name);
-        image.setContentType(file.getContentType());
-        image.setFilePath(contextFilePath);
-        image.setHeight(bufferedImage.getHeight());
-        image.setWidth(bufferedImage.getWidth());
+        Image image = Image.of(name, filePath, file.getContentType(), currentUser.getId());
 
         imageRepository.save(image);
-        return image;
+
+        return ImageDto.of(image);
     }
 }
