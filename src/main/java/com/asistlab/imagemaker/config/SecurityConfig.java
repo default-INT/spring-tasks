@@ -45,6 +45,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter implements WebM
                     .loginPage("/auth/login") // if todo guest auth /api/auth/guest
                     .failureForwardUrl("/api/auth/not-fount")
                 .and()
+                .logout()
+                    .deleteCookies("JSESSIONID")
+                .and()
                 .apply(jwtConfigurer);
     }
 

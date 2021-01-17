@@ -5,6 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
 
 @Controller
@@ -18,8 +19,9 @@ public class ContentMvcController {
     }
 
     @GetMapping
-    public String getMainPage(Map<String, Object> model) {
+    public String getMainPage(Map<String, Object> model, HttpServletRequest request) {
         model.put("user", userService.getCurrentUser());
+        System.out.println(request.getSession().getId());
         return "index";
     }
 

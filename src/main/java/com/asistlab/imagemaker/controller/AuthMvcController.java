@@ -52,9 +52,11 @@ public class AuthMvcController {
     }
 
     @PostMapping("/login")
-    public String login(UserDto requestDto, HttpServletResponse response) {
+    public String login(UserDto requestDto, HttpServletResponse response, HttpServletRequest request) {
         UserDto responseDto = userService.login(requestDto);
         response.addCookie(new Cookie("token", responseDto.getToken()));
+        request.getSession().setAttribute("token", responseDto.getToken());
+        System.out.println(request.getSession().getId());
         return "redirect:/";
     }
 }
