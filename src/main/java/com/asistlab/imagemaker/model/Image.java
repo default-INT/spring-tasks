@@ -9,12 +9,14 @@ import java.util.Objects;
 @Table(name = "images")
 public class Image {
     
-    public static Image of(String name, String filePath, String contentType, Long userId) {
+    public static Image of(String name, String filePath, String contentType, int width, int height, User user) {
         Image image = new Image();
         image.setName(name);
         image.setFilePath(filePath);
         image.setContentType(contentType);
-        image.setUserId(userId);
+        image.setUser(user);
+        image.setWidth(width);
+        image.setHeight(height);
         return image;
     }
 
@@ -29,10 +31,30 @@ public class Image {
     private String contentType;
     @Column(name = "user_id", insertable = false, updatable = false)
     private Long userId;
+    @Column
+    private int width;
+    @Column
+    private int height;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
+
+    public int getWidth() {
+        return width;
+    }
+
+    public void setWidth(int width) {
+        this.width = width;
+    }
+
+    public int getHeight() {
+        return height;
+    }
+
+    public void setHeight(int height) {
+        this.height = height;
+    }
 
     public User getUser() {
         return user;

@@ -4,6 +4,7 @@
 const lastCanvasCtx = {}
 let lastCanvasValue;
 let actualColor;
+let imgDataUndoChange;
 const activeImg = {
 
 }
@@ -60,6 +61,12 @@ const setEffect = (e, effect) => {
     e.classList.add('enable')
 }
 
+const cancelColor = () => {
+    const canvas = document.getElementById('imgCanvas')
+    const ctx = canvas.getContext('2d')
+    ctx.putImageData(lastCanvasValue, 0, 0)
+    actualColor = undefined
+}
 
 const setColor = () => {
     const redSliderDOM = document.getElementById('rs-red')
@@ -69,6 +76,8 @@ const setColor = () => {
     const canvas = document.getElementById('imgCanvas')
     const ctx = canvas.getContext('2d')
     const imgData = copyImageData(ctx, lastCanvasValue)
+    imgDataUndoChange = copyImageData(ctx, lastCanvasValue)
+
     actualColor = {red: +redSliderDOM.value, green: +greenSliderDOM.value, blue: +blueSliderDOM.value}
     const newColorData = colorChanger(imgData, actualColor)
     ctx.putImageData(newColorData, 0, 0)
@@ -101,11 +110,19 @@ const getActualImgCanvas = () => {
 
 const applyChanges = async () => {
     const newImgName = prompt('Input new image name');
+    if (!newImgName) {
+        return ;
+    }
     const canvas = getActualImgCanvas()
     const imageBlob = await new Promise(resolve => canvas.toBlob(resolve, 'image/png'));
+
     const formData = new FormData()
-    formData.append('file', imageBlob, newImgName + '.jpg')
+
+    formData.append('file', imageBlob, newImgName + '.' + imageBlob.type.split('/')[1])
     formData.append('name', newImgName)
+    formData.append('width', activeImg.image.width)
+    formData.append('height', activeImg.image.height)
+
     await fetch(url + '/uploads/load-img', {
         method: 'POST',
         body: formData
@@ -142,7 +159,6 @@ const loadImage = async () => {
                 width: domImg.width,
                 height: domImg.height
             }
-            console.log(img)
             // loadData()
             closeModal()
             // const img = await response.json()
@@ -156,19 +172,6 @@ const loadImage = async () => {
     } else {
         alert('Image incorrect')
     }
-
-    // const response = await fetch(url + '/uploads/load-img', {
-    //     method: 'POST',
-    //     body: new FormData(imgFormLoadDOM)
-    // })
-    // if (!response.ok) {
-    //     alert('Failed to load image')
-    //     return ;
-    // }
-    // loadData()
-    // closeModal()
-    // // const img = await response.json()
-    // openModal(img)
 }
 
 
@@ -189,7 +192,7 @@ const ItemImg = image => {
                 type: 'a',
                 classList: ['title-image', 'default-link'],
                 onclick: () => openModal(image),
-                children: `${image.name} / (${image.contentType.split('/')[1]}) - ${img.user.username}`
+                children: `${image.name} / (${image.contentType.split('/')[1]}) - ${image.user.username}`
             }),
             node({
                 id: 'canvas' + image.id,

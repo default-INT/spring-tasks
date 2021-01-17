@@ -27,7 +27,7 @@ public class ImageRestController {
     }
 
     @GetMapping
-    public List<Image> findAllImages() {
+    public List<ImageDto> findAllImages() {
         return imageService.findAll();
     }
 
@@ -37,7 +37,7 @@ public class ImageRestController {
             if (imageDto.getFile() == null || imageDto.getName() == null || imageDto.getName().trim().isEmpty()) {
                 throw new ImageWriteException();
             }
-            return imageService.addImage(imageDto.getFile(), imageDto.getName(), userService.getCurrentUser());
+            return imageService.addImage(imageDto, userService.getCurrentUser());
         } catch (ImageWriteException e) {
             logger.warn(e.getMessage());
             throw e;

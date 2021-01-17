@@ -21,7 +21,6 @@ public class ContentMvcController {
     @GetMapping
     public String getMainPage(Map<String, Object> model, HttpServletRequest request) {
         model.put("user", userService.getCurrentUser());
-        System.out.println(request.getSession().getId());
         return "index";
     }
 

@@ -16,7 +16,6 @@ const ModalAddImageHTML = () => `<div id="openModal" class="modal">
       </div>
       <div class="modal-body">    
         <form class="form-block" id="imgFormLoad">
-            <input type="text" placeholder="Input name" name="name">
             <input type="file" placeholder="Select image" name="file">
         </form>
         <div class="end-block">
@@ -28,11 +27,13 @@ const ModalAddImageHTML = () => `<div id="openModal" class="modal">
 </div>`
 
 const ModalImageHTML = img => {
+    const title = (img.name || 'add') + (img.user ? ' / ' + img.user.username  : ' new image')
+
     return `<div id="openModal" class="modal">
   <div class="modal-dialog img-setting-block">
     <div class="modal-content">
       <div class="modal-header">
-        <h3 class="modal-title">${img.name || 'add'} / ${img.user.username || 'new image'}</h3>
+        <h3 class="modal-title">${title}</h3>
         <a title="Close" class="close" onclick="closeModal()">×</a>
       </div>
       <div class="modal-body">    
@@ -44,8 +45,8 @@ const ModalImageHTML = img => {
             <div class="util-item">
                 <div class="util-title">Size change</div>
                 <div class="util-body">
-                    <input type="number" placeholder="width" onchange="setWidth(this.value)" value="${img.width}">
-                    <input type="number" placeholder="height" onchange="setHeight(this.height)" value="${img.height}">
+                    <input type="number" placeholder="width" id="imgModalWidth" onchange="setWidth(this.value)" value="${img.width}">
+                    <input type="number" placeholder="height" id="imgModalHeight" onchange="setHeight(this.height)" value="${img.height}">
                 </div>
             </div>
             <div class="util-item">
@@ -69,6 +70,7 @@ const ModalImageHTML = img => {
                     </div>
                     <div class="prop">
                         <a class="default-btn" onclick="setColor()" >Apply color</a>
+                        <a class="default-btn" onclick="cancelColor()" >Cancel changes</a>
                     </div>
                 </div>
             </div>

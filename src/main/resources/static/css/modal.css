@@ -162,6 +162,10 @@
     border-bottom: 1px solid #dce6e6;
 }
 
+.modal .form-block input {
+    font-size: 1em;
+}
+
 .util-item .util-colors .prop {
     display: flex;
     align-items: center;

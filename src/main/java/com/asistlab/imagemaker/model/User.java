@@ -49,7 +49,7 @@ public class User {
     @Enumerated(value = EnumType.STRING)
     private Role role;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     private Set<Image> images;
 
     public Set<Image> getImages() {

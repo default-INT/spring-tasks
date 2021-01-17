@@ -7,19 +7,49 @@ public class ImageDto {
     public static ImageDto of(Image image) {
         ImageDto imageDto = new ImageDto();
 
+        imageDto.setId(image.getId());
         imageDto.setName(image.getName());
         imageDto.setUser(UserDto.of(image.getUser()));
         imageDto.setFilePath(image.getFilePath());
         imageDto.setContentType(image.getContentType());
+        imageDto.setHeight(image.getHeight());
+        imageDto.setWidth(image.getWidth());
 
         return imageDto;
     }
 
+    private Long id;
     private MultipartFile file;
     private String name;
     private String filePath;
     private String contentType;
     private UserDto user;
+    private int width;
+    private int height;
+
+    public int getWidth() {
+        return width;
+    }
+
+    public void setWidth(int width) {
+        this.width = width;
+    }
+
+    public int getHeight() {
+        return height;
+    }
+
+    public void setHeight(int height) {
+        this.height = height;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public String getFilePath() {
         return filePath;
