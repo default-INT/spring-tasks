@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8" />
     <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
@@ -23,8 +23,7 @@
             </nav>
         </div>
         <div class="user-control">
-            <a class="username default-link" href="/profile/{{user.username}}">
-                {{user.username}}
+            <a class="username default-link" href="/profile" th:text="${user.username}">
             </a>
             <div class="manage-btn">
                 <a href="/auth/logout" class="login default-link">Log out</a>
@@ -39,18 +38,15 @@
                     Profile
                 </div>
                 <div class="fragment-content profile">
-                    <div class="item">
-                        Username: {{user.username}}
+                    <div class="item" th:text="'Username: ' + ${user.username}">
                     </div>
-                    <div class="item">
-                        First name: {{user.firstName}}
+                    <div class="item" th:text="'First name: ' + ${user.firstName}">
                     </div>
-                    <div class="item">
-                        Last name: {{user.lastName}}
+                    <div class="item" th:text="'Last name: ' + ${user.lastName}">
                     </div>
-                    <div class="item">
-                        Role: {{user.role}}
+                    <div class="item" th:text="'Role: ' + ${user.role}">
                     </div>
+                    <a href="/profile-edit" class="item default-link">Edit information</a>
                 </div>
             </div>
         </div>

@@ -1,6 +1,7 @@
 package com.asistlab.imagemaker.dto;
 
 import com.asistlab.imagemaker.model.User;
+import com.asistlab.imagemaker.model.enums.Role;
 
 import javax.persistence.Transient;
 
@@ -66,6 +67,14 @@ public class UserDto {
         this.lastName = lastName;
         this.role = role;
         this.token = token;
+    }
+
+    public boolean isAdmin() {
+        return role.equalsIgnoreCase(Role.ADMIN.name());
+    }
+
+    public boolean isUser() {
+        return role.equalsIgnoreCase(Role.USER.name());
     }
 
     public Long getId() {

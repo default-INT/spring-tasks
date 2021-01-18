@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en"  xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8" />
     <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
@@ -25,9 +25,7 @@
             </nav>
         </div>
         <div class="user-control">
-            <a class="username default-link" href="/profile">
-                {{user.username}}
-            </a>
+            <a class="username default-link" href="/profile" th:text="${user.username}"></a>
             <div class="manage-btn">
                 <form action="/auth/logout" method="POST">
                     <a onclick="this.closest('form').submit();return false;" class="login default-link">Log out</a>
