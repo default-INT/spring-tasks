@@ -177,13 +177,12 @@ const loadImage = async () => {
 
 const ItemImg = image => {
     const canvas = node({type: 'canvas'})
-
+    const role = document.querySelector('.user-control .username').id
     const pic = new Image()
     pic.crossOrigin = 'Anonymous'
     pic.src = url + '/uploads/' + image.filePath
 
     drawImageToCanvas(canvas, pic, 400, 400)
-
     return  node({
         id: 'image' + image.id,
         classList: ['item', 'image', 'light-shadow'],
@@ -191,7 +190,7 @@ const ItemImg = image => {
             node({
                 type: 'a',
                 classList: ['title-image', 'default-link'],
-                onclick: () => openModal(image),
+                onclick: role === 'admin' ? () => alert('Admin has not this permission') : () => openModal(image),
                 children: `${image.name} / (${image.contentType.split('/')[1]}) - ${image.user.username}`
             }),
             node({

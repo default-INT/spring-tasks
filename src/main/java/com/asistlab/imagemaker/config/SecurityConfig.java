@@ -28,6 +28,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter implements WebM
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable()
+                .httpBasic().disable()
                 .authorizeRequests()
                 .antMatchers(
                         "/api/auth/login",
@@ -45,7 +46,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter implements WebM
                     .failureForwardUrl("/api/auth/not-fount")
                 .and()
                 .logout()
-                    .deleteCookies("JSESSIONID")
+
                 .and()
                 .apply(jwtConfigurer);
     }

@@ -10,9 +10,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import javax.annotation.security.PermitAll;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/auth")
@@ -51,10 +53,20 @@ public class AuthMvcController {
         return "login";
     }
 
-    @PostMapping("/login")
-    public String login(UserDto requestDto, HttpServletResponse response, HttpServletRequest request) {
-        UserDto responseDto = userService.login(requestDto);
-        response.addCookie(new Cookie("token", responseDto.getToken()));
+    @PostMapping("/login2")
+    public String loginAuth(UserDto requestDto, HttpServletResponse response, Map<String, Object> model) {
+        System.out.println("My login method");
+        try {
+            UserDto responseDto = userService.login(requestDto);
+            if (responseDto.getToken().isEmpty()) {
+                throw new IllegalArgumentException("Wrong password");
+            }
+            Cookie cookie = new Cookie("token", responseDto.getToken());
+            response.addCookie(cookie);
+        } catch (Exception e) {
+            model.put("errorMsg", e.getMessage());
+            return "login";
+        }
         return "redirect:/";
     }
 }

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en"  xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8" />
     <link rel="icon" href="/static/favicon.ico" />
@@ -8,8 +8,6 @@
     <link rel="stylesheet" href="/static/css/content.css" />
     <link rel="stylesheet" href="/static/css/modal.css" />
     <link rel="stylesheet" href="/static/css/loader.css" />
-    <link rel="stylesheet" href="/static/css/slider.css" />
-    <link rel="stylesheet" href="/static/css/buttons.css" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#000000" />
 
@@ -26,7 +24,8 @@
             </nav>
         </div>
         <div class="user-control">
-            <a class="username default-link" href="/profile" th:id="${user.role}" th:text="${user.username}"></a>
+            <a class="username default-link" href="/profile" th:text="${user.username}">
+            </a>
             <div class="manage-btn">
                 <form action="/auth/logout" method="POST">
                     <a onclick="this.closest('form').submit();return false;" class="login default-link">Log out</a>
@@ -39,28 +38,25 @@
             <div id="modalContainer"></div>
             <div class="fragment">
                 <div class="fragment-title">
-                    <div class="text">Images</div>
-                    <button class="icon-btn add-btn" th:if="${user.isUser()}">
-                        <div class="add-icon"></div>
-                        <a  onclick="modalAddImageShow()">
-                            <div class="btn-txt">Add</div>
-                        </a>
-                    </button>
+                    <div class="text">Profile</div>
+                    <a href="/profile-edit" class="default-link edit-link">Edit information</a>
                 </div>
-                <div class="fragment-content image-list">
+                <div class="fragment-content profile">
+                    <form action="/profile-edit" class="login-form" method="POST">
+                        <input class="item" type="text" name="firstName" th:value="${user.firstName}" required placeholder="Input new first name">
+                        <input class="item" type="text" name="lastName" th:value="${user.lastName}" required placeholder="Input new last name">
+                        <input class="item" type="password" name="password" required placeholder="Input new password">
+                        <input class="item" type="password" name="confirmPassword" required placeholder="Confirm new password">
+                        <div class="msg" th:if="${errorMsg}" th:text="${errorMsg}"></div>
+                        <div class="btn-container">
+                            <a onclick="this.closest('form').submit();return false;" class="default-btn">Edit</a>
+                        </div>
+                    </form>
                 </div>
-
             </div>
         </div>
     </main>
-    <script>
-    </script>
-    <script src="/static/js/stackBlur.js"></script>
-    <script src="/static/js/imageProcessing.js"></script>
-    <script src="/static/js/uiElements.js"></script>
     <script src="/static/js/util.js"></script>
-    <script src="/static/js/main.js">
-    </script>
 </div>
 </body>
 </html>

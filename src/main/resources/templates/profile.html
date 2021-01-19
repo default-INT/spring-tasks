@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8" />
-    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
+    <link rel="icon" href="/static/favicon.ico" />
     <link rel="stylesheet" href="/static/main.css" />
     <link rel="stylesheet" href="/static/css/header.css" />
     <link rel="stylesheet" href="/static/css/content.css" />
@@ -20,13 +20,16 @@
             <div class="title">Image maker</div>
             <nav>
                 <a href="/" class="default-link nav-link">Images</a>
+                <a th:if="${user.isAdmin()}" th:text="'User management'" class="default-link nav-link" href="/user-manage"></a>
             </nav>
         </div>
         <div class="user-control">
             <a class="username default-link" href="/profile" th:text="${user.username}">
             </a>
             <div class="manage-btn">
-                <a href="/auth/logout" class="login default-link">Log out</a>
+                <form action="/auth/logout" method="POST">
+                    <a onclick="this.closest('form').submit();return false;" class="login default-link">Log out</a>
+                </form>
             </div>
         </div>
     </header>
@@ -35,7 +38,8 @@
             <div id="modalContainer"></div>
             <div class="fragment">
                 <div class="fragment-title">
-                    Profile
+                    <div class="text">Profile</div>
+                    <a href="/profile-edit" class="default-link edit-link">Edit information</a>
                 </div>
                 <div class="fragment-content profile">
                     <div class="item" th:text="'Username: ' + ${user.username}">
@@ -46,7 +50,6 @@
                     </div>
                     <div class="item" th:text="'Role: ' + ${user.role}">
                     </div>
-                    <a href="/profile-edit" class="item default-link">Edit information</a>
                 </div>
             </div>
         </div>

@@ -87,6 +87,7 @@ public class JwtTokenProvider {
             Optional<Cookie> cookieOptional = Arrays.stream(request.getCookies())
                     .filter(c -> c.getName().equals(tokenCookieKey))
                     .findFirst();
+            if (cookieOptional.isPresent() && cookieOptional.get().getValue().isEmpty()) return Optional.empty();
             return cookieOptional.map(Cookie::getValue);
         }
         return tokenOpt;

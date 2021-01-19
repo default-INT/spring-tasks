@@ -67,6 +67,18 @@ public class UserService {
             .orElseThrow(() -> new JwtAuthenticationException("Not found user on token")));
     }
 
+    public UserDto editUserInfo(UserDto userDto) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User user = userRepository.findByUsername(auth.getName())
+                .orElseThrow(() -> new JwtAuthenticationException("Not found user on token"));
+        user.setFirstName(userDto.getFirstName());
+        user.setLastName(userDto.getLastName());
+        user.setPassword(PASSWORD_ENCODER.encode(userDto.getPassword()));
+        userRepository.save(user);
+
+        return UserDto.of(user);
+    }
+
     public UserDto login(UserDto userRequestDto) throws AuthenticationException {
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(userRequestDto.getUsername(), userRequestDto.getPassword())

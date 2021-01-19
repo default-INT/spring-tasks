@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8" />
-    <link rel="icon" href="%PUBLIC_URL%/static/favicon.ico" />
+    <link rel="icon" href="/static/favicon.ico" />
     <link rel="stylesheet" href="/static/main.css" />
     <link rel="stylesheet" href="/static/css/header.css" />
     <link rel="stylesheet" href="/static/css/content.css" />
@@ -26,7 +26,7 @@
     </header>
     <main>
         <div class="container">
-            <form action="/auth/login" class="login-form" method="POST">
+            <form action="/auth/login2" class="login-form" method="POST">
                 <label>
                     <input type="text" placeholder="username" name="username">
                 </label>
@@ -36,6 +36,7 @@
                 <label>
                     <a href="/auth/registration" class="default-link">Registration</a>
                 </label>
+                <div class="msg" th:if="${errorMsg}" th:text="${errorMsg}"></div>
                 <div class="btn-container">
                     <a class="default-btn" onclick="this.closest('form').submit();return false;">Login</a>
                 </div>

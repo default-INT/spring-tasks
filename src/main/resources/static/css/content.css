@@ -65,3 +65,27 @@ main .fragment .profile {
 main .fragment .profile .item {
     padding: .5rem
 }
+
+main .fragment .edit-link {
+    font-size: .5em;
+}
+
+
+main .profile .login-form {
+    display: flex;
+    flex-direction: column;
+    min-width: 300px;
+    width: 40%;
+    margin: auto;
+    justify-content: center;
+    align-items: center;
+}
+
+main .profile .login-form input {
+    font-size: 1em;
+    margin-bottom: .7rem;
+}
+
+main .profile .login-form .btn-container {
+    padding: 2rem;
+}
