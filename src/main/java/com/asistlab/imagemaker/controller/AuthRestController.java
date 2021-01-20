@@ -28,6 +28,16 @@ public class AuthRestController {
         this.rolePermissionService = rolePermissionService;
     }
 
+    @PostMapping("/change-status")
+    public ResponseEntity<?> changeStatus(@RequestBody UserDto req) {
+        try {
+            UserDto userDto = userService.changeStatus(req);
+            return ResponseEntity.ok("Status change to " + userDto.getStatus().name());
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.FORBIDDEN);
+        }
+    }
+
     @GetMapping("/guest")
     public ResponseEntity<?> guestAuth() {
         try {

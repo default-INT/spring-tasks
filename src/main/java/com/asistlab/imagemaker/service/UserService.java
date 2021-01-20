@@ -3,9 +3,9 @@ package com.asistlab.imagemaker.service;
 import com.asistlab.imagemaker.dto.UserDto;
 import com.asistlab.imagemaker.exception.IllegalInsertEntityExistException;
 import com.asistlab.imagemaker.exception.JwtAuthenticationException;
+import com.asistlab.imagemaker.model.User;
 import com.asistlab.imagemaker.model.enums.Role;
 import com.asistlab.imagemaker.model.enums.Status;
-import com.asistlab.imagemaker.model.User;
 import com.asistlab.imagemaker.repository.UserRepository;
 import com.asistlab.imagemaker.security.JwtTokenProvider;
 import org.springframework.http.ResponseEntity;
@@ -19,8 +19,10 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 public class UserService {
@@ -41,6 +43,14 @@ public class UserService {
         this.jwtTokenProvider = jwtTokenProvider;
     }
 
+    public UserDto changeStatus(UserDto userDto) {
+        User user = userRepository.findByUsername(userDto.getUsername())
+                .orElseThrow(() -> new IllegalArgumentException("User with username: '" + userDto.getStatus() + "' not found."));
+        user.setStatus(user.getStatus().equals(Status.ACTIVE) ? Status.BANNED : Status.ACTIVE);
+        userRepository.save(user);
+        return UserDto.of(user);
+    }
+
     public ResponseEntity<?> guestAuth() throws AuthenticationException {
         String uuidUsername = UUID.randomUUID().toString();
         User user = new User();
@@ -59,6 +69,14 @@ public class UserService {
                 "role", user.getRole().name(),
                 "token", token
         ));
+    }
+
+    public List<UserDto> findAll() {
+        return userRepository.findAll().stream()
+                .filter(user -> user.getRole().equals(Role.USER))
+                .sorted((u1, u2) -> u1.getUsername().compareToIgnoreCase(u2.getUsername()))
+                .map(UserDto::of)
+                .collect(Collectors.toList());
     }
 
     public UserDto getCurrentUser() {

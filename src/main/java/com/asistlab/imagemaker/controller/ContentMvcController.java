@@ -39,7 +39,14 @@ public class ContentMvcController {
         return "profileEdit";
     }
 
-    @PostMapping("/profile-edit")
+    @GetMapping("/user-manage")
+    public String getUserManagePage(Map<String, Object> model) {
+        model.put("user", userService.getCurrentUser());
+        model.put("users", userService.findAll());
+        return "userManage";
+    }
+
+    @PostMapping("/profile-edit" )
     public String editUserInfo(UserDto userDto, String confirmPassword,  Map<String, Object> model) {
         try {
             if (!confirmPassword.equals(userDto.getPassword())) {

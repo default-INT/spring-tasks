@@ -38,7 +38,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter implements WebM
                         "/uploads/**"
                 ).permitAll()
                 .antMatchers("/uploads/load-img").hasAuthority(Permission.ADD_IMAGE.name())
-                .antMatchers("/api/auth/add-user-permission").hasAuthority(Permission.ADMIN_PERMISSION.name())
+                .antMatchers("/api/auth/add-user-permission", "/user-manage", "/api/auth/change-status")
+                    .hasAuthority(Permission.ADMIN_PERMISSION.name())
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()

@@ -89,3 +89,24 @@ main .profile .login-form input {
 main .profile .login-form .btn-container {
     padding: 2rem;
 }
+
+main .fragment .user-table {
+    width: 100%;
+    padding: 1rem;
+}
+
+main .fragment .user-table tr {
+    height: 3rem;
+    border: 2px solid #dce6e6;
+    text-align: center;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    align-items: center;
+    margin-bottom: .5rem;
+    border-radius: 10px;
+}
+
+main .fragment .user-table td {
+    display: flex;
+    justify-content: center;
+}

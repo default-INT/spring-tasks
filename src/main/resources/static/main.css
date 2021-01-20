@@ -99,6 +99,28 @@ button:hover {
     border:  #6bb536 solid  2px;
 }
 
+.status-btn {
+    display: block;
+    width: 100px;
+    padding: 10px;
+}
+
+.status-btn.active {
+    background-color: #6bb536;
+    color: #fff;
+}
+
+.status-btn.banned {
+    background-color: #f00;
+    color: #fff;
+    border-color: #f00;
+}
+
+.status-btn.banned:hover {
+    background-color: #fff;
+    color: #f00;
+}
+
 .default-btn:hover {
     background-color: #fff;
     color: #6bb536 ;

@@ -45,7 +45,7 @@ public class AuthMvcController {
     public String registration(UserDto requestDto, HttpServletResponse response) {
         UserDto userDto = userService.registration(requestDto);
         response.addCookie(new Cookie("token", userDto.getToken()));
-        return "redirect:/";
+        return "redirect:/profile";
     }
 
     @GetMapping("/login")
@@ -55,7 +55,6 @@ public class AuthMvcController {
 
     @PostMapping("/login2")
     public String loginAuth(UserDto requestDto, HttpServletResponse response, Map<String, Object> model) {
-        System.out.println("My login method");
         try {
             UserDto responseDto = userService.login(requestDto);
             if (responseDto.getToken().isEmpty()) {
@@ -64,9 +63,10 @@ public class AuthMvcController {
             Cookie cookie = new Cookie("token", responseDto.getToken());
             response.addCookie(cookie);
         } catch (Exception e) {
+            logger.info(e.getMessage());
             model.put("errorMsg", e.getMessage());
             return "login";
         }
-        return "redirect:/";
+        return "redirect:/profile";
     }
 }

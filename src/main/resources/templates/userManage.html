@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en"  xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8" />
+    <link rel="icon" href="/static/favicon.ico" />
+    <link rel="stylesheet" href="/static/main.css" />
+    <link rel="stylesheet" href="/static/css/header.css" />
+    <link rel="stylesheet" href="/static/css/content.css" />
+    <link rel="stylesheet" href="/static/css/modal.css" />
+    <link rel="stylesheet" href="/static/css/loader.css" />
+    <link rel="stylesheet" href="/static/css/slider.css" />
+    <link rel="stylesheet" href="/static/css/buttons.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#000000" />
+
+    <title>Image maker</title>
+</head>
+<body>
+<div id="root">
+    <header>
+        <div class="main-container">
+            <div class="title">Image maker</div>
+            <nav>
+                <a href="/" class="default-link nav-link">Images</a>
+                <a th:if="${user.isAdmin()}" th:text="'User management'" class="default-link nav-link" href="/user-manage"></a>
+            </nav>
+        </div>
+        <div class="user-control">
+            <a class="username default-link" href="/profile" th:id="${user.role}" th:text="${user.username}"></a>
+            <div class="manage-btn">
+                <form action="/auth/logout" method="POST">
+                    <a onclick="this.closest('form').submit();return false;" class="login default-link">Log out</a>
+                </form>
+            </div>
+        </div>
+    </header>
+    <main>
+        <div class="container">
+            <div id="modalContainer"></div>
+            <div class="fragment">
+                <div class="fragment-title">
+                    <div class="text">Users</div>
+                    <button class="icon-btn add-btn" th:if="${user.isUser()}">
+                        <div class="add-icon"></div>
+                        <a  onclick="modalAddImageShow()">
+                            <div class="btn-txt">Add</div>
+                        </a>
+                    </button>
+                </div>
+                <div class="fragment-content user-list">
+                    <table class="user-table">
+                        <tr th:each="userItem: ${users}">
+                            <td th:text="${userItem.username}"></td>
+                            <td th:text="${userItem.firstName} + ' ' + ${userItem.lastName}"></td>
+                            <td>
+                                <a th:id="${userItem.username}" th:if="${userItem.isActive()}" class="default-btn status-btn active" onclick="changeStatus(this)">Active</a>
+                                <a th:id="${userItem.username}" th:unless="${userItem.isActive()}" class="default-btn status-btn banned" onclick="changeStatus(this)">Banned</a>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </main>
+    <script>
+    </script>
+    <script src="/static/js/stackBlur.js"></script>
+    <script src="/static/js/imageProcessing.js"></script>
+    <script src="/static/js/uiElements.js"></script>
+    <script src="/static/js/util.js"></script>
+    <script src="/static/js/userManage.js"></script>
+</div>
+</body>
+</html>

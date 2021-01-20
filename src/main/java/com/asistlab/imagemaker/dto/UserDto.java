@@ -2,6 +2,7 @@ package com.asistlab.imagemaker.dto;
 
 import com.asistlab.imagemaker.model.User;
 import com.asistlab.imagemaker.model.enums.Role;
+import com.asistlab.imagemaker.model.enums.Status;
 
 import javax.persistence.Transient;
 
@@ -22,6 +23,7 @@ public class UserDto {
         user.setFirstName(rawUser.getFirstName());
         user.setLastName(rawUser.getLastName());
         user.setRole(rawUser.getRole().name().toLowerCase());
+        user.setStatus(rawUser.getStatus());
 
         return user;
     }
@@ -34,6 +36,7 @@ public class UserDto {
         user.setLastName(rawUser.getLastName());
         user.setRole(rawUser.getRole());
         user.setToken(rawUser.getToken());
+        user.setStatus(rawUser.getStatus());
 
         return user;
     }
@@ -57,6 +60,7 @@ public class UserDto {
     private String lastName;
     private String role;
     private String token;
+    private Status status;
 
     public UserDto() {
     }
@@ -67,6 +71,18 @@ public class UserDto {
         this.lastName = lastName;
         this.role = role;
         this.token = token;
+    }
+
+    public Status getStatus() {
+        return status;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
+    }
+
+    public boolean isActive() {
+        return status.equals(Status.ACTIVE);
     }
 
     public boolean isAdmin() {
