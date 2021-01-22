@@ -35,6 +35,7 @@ const modalImageComponentShow = img => {
     pic.crossOrigin = 'Anonymous'
     pic.src = img.filePath.includes('base64') ? img.filePath : url + '/uploads/' + img.filePath
     activeImg.image = pic
+    activeImg.id = img.id
     drawImageToCanvas(canvas, pic, 800, 800)
 }
 

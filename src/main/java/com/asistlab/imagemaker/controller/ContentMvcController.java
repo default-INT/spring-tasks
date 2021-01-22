@@ -1,6 +1,7 @@
 package com.asistlab.imagemaker.controller;
 
 import com.asistlab.imagemaker.dto.UserDto;
+import com.asistlab.imagemaker.service.ImageService;
 import com.asistlab.imagemaker.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,9 +16,11 @@ import java.util.Map;
 public class ContentMvcController {
 
     private final UserService userService;
+    private final ImageService imageService;
 
-    public ContentMvcController(UserService userService) {
+    public ContentMvcController(UserService userService, ImageService imageService) {
         this.userService = userService;
+        this.imageService = imageService;
     }
 
     @GetMapping
@@ -44,6 +47,14 @@ public class ContentMvcController {
         model.put("user", userService.getCurrentUser());
         model.put("users", userService.findAll());
         return "userManage";
+    }
+
+    @GetMapping("/my-images")
+    public String getUserImages(Map<String, Object> model) {
+        UserDto userDto = userService.getCurrentUser();
+        model.put("user", userDto);
+        model.put("images", imageService.findAllByUsername(userDto.getUsername()));
+        return "userImages";
     }
 
     @PostMapping("/profile-edit" )

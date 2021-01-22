@@ -1,5 +1,6 @@
 package com.asistlab.imagemaker.service;
 
+import com.asistlab.imagemaker.dto.ImageDto;
 import com.asistlab.imagemaker.dto.UserDto;
 import com.asistlab.imagemaker.exception.IllegalInsertEntityExistException;
 import com.asistlab.imagemaker.exception.JwtAuthenticationException;

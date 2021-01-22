@@ -20,6 +20,7 @@
             <div class="title">Image maker</div>
             <nav>
                 <a href="/" class="default-link nav-link">Images</a>
+                <a th:if="${user.isUser()}" th:text="'My images'" class="default-link nav-link" href="/my-images"></a>
                 <a th:if="${user.isAdmin()}" th:text="'User management'" class="default-link nav-link" href="/user-manage"></a>
             </nav>
         </div>

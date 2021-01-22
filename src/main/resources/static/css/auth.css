@@ -11,7 +11,7 @@ main .login-form label, main .reg-form label {
 }
 
 main .login-form input, main .reg-form input {
-  font-size: 2em;
+  font-size: 2vmax;
 }
 
 main .login-form .btn-container, main .reg-form .btn-container {

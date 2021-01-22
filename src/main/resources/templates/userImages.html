@@ -40,17 +40,19 @@
             <div id="modalContainer"></div>
             <div class="fragment">
                 <div class="fragment-title">
-                    <div class="text">Images</div>
-                    <button class="icon-btn add-btn" th:if="${user.isUser()}">
-                        <div class="add-icon"></div>
-                        <a  onclick="modalAddImageShow()">
-                            <div class="btn-txt">Add</div>
-                        </a>
-                    </button>
+                    <div class="text">My images</div>
                 </div>
-                <div class="fragment-content image-list">
+                <div class="fragment-content user-list">
+                    <table class="user-table">
+                        <tr th:each="image: ${images}">
+                            <td th:text="${image.name}"></td>
+                            <td th:text="${image.contentType}"></td>
+                            <td>
+                                <a th:id="${image.id}" class="default-btn status-btn banned" onclick="deleteImage(this)">Delete</a>
+                            </td>
+                        </tr>
+                    </table>
                 </div>
-
             </div>
         </div>
     </main>
@@ -60,8 +62,7 @@
     <script src="/static/js/imageProcessing.js"></script>
     <script src="/static/js/uiElements.js"></script>
     <script src="/static/js/util.js"></script>
-    <script src="/static/js/main.js">
-    </script>
+    <script src="/static/js/imageManage.js"></script>
 </div>
 </body>
 </html>
