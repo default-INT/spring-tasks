@@ -169,3 +169,7 @@ button:hover {
     color: #e74a3b;
 }
 
+.msg {
+    text-align: center;
+    color: #f00;
+}

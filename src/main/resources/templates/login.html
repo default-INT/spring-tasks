@@ -26,7 +26,7 @@
     </header>
     <main>
         <div class="container">
-            <form action="/auth/login2" class="login-form" method="POST">
+            <form action="/auth/log" class="login-form" method="POST">
                 <label>
                     <input type="text" placeholder="username" name="username">
                 </label>
@@ -36,7 +36,7 @@
                 <label>
                     <a href="/auth/registration" class="default-link">Registration</a>
                 </label>
-                <div class="msg" th:if="${errorMsg}" th:text="${errorMsg}"></div>
+                <div class="msg" th:if="${#request.getSession().getAttribute('errorAuth')}" th:text="${#request.getSession().getAttribute('errorAuth')}"></div>
                 <div class="btn-container">
                     <a class="default-btn" onclick="this.closest('form').submit();return false;">Login</a>
                 </div>

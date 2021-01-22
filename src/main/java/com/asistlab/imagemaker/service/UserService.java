@@ -27,20 +27,28 @@ import java.util.stream.Collectors;
 @Service
 public class UserService {
 
+    private static final PasswordEncoder PASSWORD_ENCODER = passwordEncoder();
+
     private final AuthenticationManager authenticationManager;
     private final UserRepository userRepository;
     private final JwtTokenProvider jwtTokenProvider;
-    private static final PasswordEncoder PASSWORD_ENCODER = passwordEncoder();
+    private final EmailService emailService;
 
     private static PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder(12);
     }
 
     public UserService(AuthenticationManager authenticationManager, UserRepository userRepository,
-                       JwtTokenProvider jwtTokenProvider) {
+                       JwtTokenProvider jwtTokenProvider, EmailService emailService) {
         this.authenticationManager = authenticationManager;
         this.userRepository = userRepository;
         this.jwtTokenProvider = jwtTokenProvider;
+        this.emailService = emailService;
+    }
+
+    public UserDto findByUsername(String username) {
+        return UserDto.of(userRepository.findByUsername(username)
+                .orElseThrow(IllegalArgumentException::new));
     }
 
     public UserDto changeStatus(UserDto userDto) {
@@ -48,6 +56,7 @@ public class UserService {
                 .orElseThrow(() -> new IllegalArgumentException("User with username: '" + userDto.getStatus() + "' not found."));
         user.setStatus(user.getStatus().equals(Status.ACTIVE) ? Status.BANNED : Status.ACTIVE);
         userRepository.save(user);
+        emailService.sendMessage(user.getEmail(), "Changed user status", "Set new status: " + user.getStatus().name());
         return UserDto.of(user);
     }
 
@@ -82,7 +91,7 @@ public class UserService {
     public UserDto getCurrentUser() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         return UserDto.of(userRepository.findByUsername(auth.getName())
-            .orElseThrow(() -> new JwtAuthenticationException("Not found user on token")));
+            .orElseThrow(() -> new JwtAuthenticationException("Not found user on username")));
     }
 
     public UserDto editUserInfo(UserDto userDto) {
@@ -104,8 +113,7 @@ public class UserService {
         User user = userRepository.findByUsername(userRequestDto.getUsername())
                 .orElseThrow(() -> new UsernameNotFoundException("User doesn't exist"));
         String token = jwtTokenProvider.createToken(user.getUsername(), user.getRole().name());
-        return UserDto.of(user.getUsername(), user.getFirstName(), user.getLastName(),
-                user.getRole().name().toLowerCase(), token);
+        return UserDto.of(user, token);
     }
 
     public UserDto registration(UserDto userDto) {

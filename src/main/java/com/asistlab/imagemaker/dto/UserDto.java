@@ -15,11 +15,18 @@ public class UserDto {
         return user;
     }
 
+    public static UserDto of(User user, String token) {
+        UserDto userDto = of(user);
+        userDto.setToken(token);
+        return userDto;
+    }
+
     public static UserDto of(User rawUser) {
         UserDto user = new UserDto();
 
         user.setId(rawUser.getId());
         user.setUsername(rawUser.getUsername());
+        user.setEmail(rawUser.getEmail());
         user.setFirstName(rawUser.getFirstName());
         user.setLastName(rawUser.getLastName());
         user.setRole(rawUser.getRole().name().toLowerCase());
@@ -37,6 +44,7 @@ public class UserDto {
         user.setRole(rawUser.getRole());
         user.setToken(rawUser.getToken());
         user.setStatus(rawUser.getStatus());
+        user.setEmail(rawUser.getEmail());
 
         return user;
     }
@@ -54,6 +62,7 @@ public class UserDto {
 
     private Long id;
     private String username;
+    private String email;
     @Transient
     private String password;
     private String firstName;
@@ -71,6 +80,14 @@ public class UserDto {
         this.lastName = lastName;
         this.role = role;
         this.token = token;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public Status getStatus() {

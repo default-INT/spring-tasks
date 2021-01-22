@@ -38,6 +38,8 @@ header nav {
     align-items: center;
     margin-left: 2rem;
     color: #69707a;
+    flex-wrap: wrap;
+    justify-content: center;
 }
 
 header nav .nav-link {

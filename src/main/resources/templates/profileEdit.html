@@ -45,6 +45,7 @@
                     <form action="/profile-edit" class="login-form" method="POST">
                         <input class="item" type="text" name="firstName" th:value="${user.firstName}" required placeholder="Input new first name">
                         <input class="item" type="text" name="lastName" th:value="${user.lastName}" required placeholder="Input new last name">
+                        <input class="item" type="text" name="email" th:value="${user.email}" required placeholder="Input new email">
                         <input class="item" type="password" name="password" required placeholder="Input new password">
                         <input class="item" type="password" name="confirmPassword" required placeholder="Confirm new password">
                         <div class="msg" th:if="${errorMsg}" th:text="${errorMsg}"></div>

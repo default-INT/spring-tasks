@@ -16,6 +16,7 @@ public class User {
         User user = new User();
 
         user.setUsername(userDto.getUsername());
+        user.setEmail(userDto.getEmail());
         user.setFirstName(userDto.getFirstName());
         user.setLastName(userDto.getLastName());
         user.setPassword(userDto.getPassword());
@@ -29,16 +30,19 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(unique = true)
+    @Column(unique = true, nullable = false)
     private String username;
 
-    @Column
+    @Column(nullable = false)
     private String password;
 
-    @Column(name = "first_name")
+    @Column(unique = true, nullable = false)
+    private String email;
+
+    @Column(name = "first_name", nullable = false)
     private String firstName;
 
-    @Column(name = "last_name")
+    @Column(name = "last_name", nullable = false)
     private String lastName;
 
     @Column(length = 30)
@@ -51,6 +55,14 @@ public class User {
 
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     private Set<Image> images;
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
     public Set<Image> getImages() {
         return images;
@@ -123,6 +135,7 @@ public class User {
         User user = (User) o;
         return Objects.equals(id, user.id) &&
                 Objects.equals(username, user.username) &&
+                Objects.equals(email, user.email) &&
                 Objects.equals(password, user.password) &&
                 Objects.equals(firstName, user.firstName) &&
                 Objects.equals(lastName, user.lastName) &&
@@ -132,6 +145,6 @@ public class User {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, username, password, firstName, lastName, status, role);
+        return Objects.hash(id, username, email, password, firstName, lastName, status, role);
     }
 }

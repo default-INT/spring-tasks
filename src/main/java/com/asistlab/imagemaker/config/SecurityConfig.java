@@ -1,7 +1,10 @@
 package com.asistlab.imagemaker.config;
 
 import com.asistlab.imagemaker.model.enums.Permission;
-import com.asistlab.imagemaker.security.JwtConfigurer;
+import com.asistlab.imagemaker.repository.UserRepository;
+import com.asistlab.imagemaker.security.AuthenticationFilter;
+import com.asistlab.imagemaker.security.AuthorizationFilter;
+import com.asistlab.imagemaker.security.JwtTokenProvider;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -9,6 +12,7 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
@@ -19,16 +23,15 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter implements WebMvcConfigurer {
 
-    private final JwtConfigurer jwtConfigurer;
+    private final UserRepository userRepository;
 
-    public SecurityConfig(JwtConfigurer jwtConfigurer) {
-        this.jwtConfigurer = jwtConfigurer;
+    public SecurityConfig(UserRepository userRepository) {
+        this.userRepository = userRepository;
     }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable()
-                .httpBasic().disable()
                 .authorizeRequests()
                 .antMatchers(
                         "/api/auth/login",
@@ -42,14 +45,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter implements WebM
                     .hasAuthority(Permission.ADMIN_PERMISSION.name())
                 .anyRequest().authenticated()
                 .and()
+                    .addFilter(new AuthenticationFilter(authenticationManager()))
+                    .addFilter(new AuthorizationFilter(authenticationManager(), userRepository))
+                    .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.ALWAYS)
+                .and()
                 .formLogin()
-                    .loginPage("/auth/login") // if todo guest auth /api/auth/guest
+                    .loginPage("/auth/login") // todo guest auth /api/auth/guest
                     .failureForwardUrl("/api/auth/not-fount")
                 .and()
-                .logout()
-
-                .and()
-                .apply(jwtConfigurer);
+                .logout();
     }
 
     @Override

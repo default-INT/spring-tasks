@@ -10,11 +10,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import javax.annotation.security.PermitAll;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.Map;
 
 @Controller
 @RequestMapping("/auth")
@@ -32,7 +29,6 @@ public class AuthMvcController {
     public String logout(HttpServletRequest request, HttpServletResponse response) {
         SecurityContextLogoutHandler securityContextLogoutHandler = new SecurityContextLogoutHandler();
         securityContextLogoutHandler.logout(request, response, null);
-        response.addCookie(new Cookie("token", null));
         return "redirect:/auth/login";
     }
 
@@ -44,7 +40,6 @@ public class AuthMvcController {
     @PostMapping("/registration")
     public String registration(UserDto requestDto, HttpServletResponse response) {
         UserDto userDto = userService.registration(requestDto);
-        response.addCookie(new Cookie("token", userDto.getToken()));
         return "redirect:/profile";
     }
 
@@ -53,20 +48,8 @@ public class AuthMvcController {
         return "login";
     }
 
-    @PostMapping("/login2")
-    public String loginAuth(UserDto requestDto, HttpServletResponse response, Map<String, Object> model) {
-        try {
-            UserDto responseDto = userService.login(requestDto);
-            if (responseDto.getToken().isEmpty()) {
-                throw new IllegalArgumentException("Wrong password");
-            }
-            Cookie cookie = new Cookie("token", responseDto.getToken());
-            response.addCookie(cookie);
-        } catch (Exception e) {
-            logger.info(e.getMessage());
-            model.put("errorMsg", e.getMessage());
-            return "login";
-        }
+    @PostMapping("/log")
+    public String loginAuth() {
         return "redirect:/profile";
     }
 }
